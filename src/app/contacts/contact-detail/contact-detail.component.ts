@@ -13,6 +13,6 @@ export class ContactDetailComponent {
   // contact: Contact;
 
   constructor() {
-    this.contact = new Contact (0, '', '', '', '', null)
+    this.contact = new Contact ('0', '', '', '', '', null)
   }
 }
