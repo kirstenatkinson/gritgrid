@@ -14,8 +14,8 @@
       </div>
       <div class="row">
         <div class="col-xs-12 text-right">
-          <button class="btn btn-primary float-right">Edit</button>
-          <button class="btn btn-danger float-right" style="margin-left: 5px;">Delete</button>
+          <button class="btn btn-primary float-right" [routerLink]="['edit']">Edit</button>
+          <button class="btn btn-danger float-right" style="margin-left: 5px;" (click)="onDelete()">Delete</button>
         </div>
       </div>
     </div>
