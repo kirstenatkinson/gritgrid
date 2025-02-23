@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cms-contact-list',
@@ -9,17 +10,22 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html',
   styleUrl: './contact-list.component.css'
 })
-export class ContactListComponent implements OnInit{
+export class ContactListComponent implements OnInit, OnDestroy{
   contacts: Contact[] = [];
+  private subscription: Subscription;
 
   constructor(private contactService: ContactService) {}
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
 
-    this.contactService.contactChangedEvent
+    this.subscription = this.contactService.contactListChanged
     .subscribe((contacts: Contact[]) => {
       this.contacts = contacts;
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
