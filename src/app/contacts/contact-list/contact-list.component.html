@@ -7,12 +7,14 @@
 
     <!-- Panel Body -->
     <div class="panel-body">
-        <div class="row">
+        <div class="row" cdkDropList id="contactList" [cdkDropListData]="contacts" [cdkDropListConnectedTo]="['groupList']">
             <!-- Iterate over contacts and display each one -->
             <cms-contact-item
                 *ngFor="let contact of contacts"
                 [contact]="contact"
-                [routerLink]="[contact.id]">
+                [routerLink]="[contact.id]"
+                cdkDrag
+                [cdkDragData]="contact">
             </cms-contact-item>
         </div>
     </div>
