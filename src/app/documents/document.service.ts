@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
@@ -14,13 +15,22 @@ export class DocumentService {
    documentChangedEvent = new EventEmitter<Document[]>();
    documentListChanged = new Subject<Document[]>();
    
-   constructor() {
-      this.documents = MOCKDOCUMENTS;
-      this.maxDocumentId = this.getMaxId();
-   }
+   constructor(private http: HttpClient) {}
 
-   getDocuments(): Document[] {
-      return this.documents.slice();
+   getDocuments(): void {
+      this.http
+      .get<Document[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/documents.json')
+      .subscribe(
+        (documents: Document[]) => {
+          this.documents = documents;
+          this.maxDocumentId = this.getMaxId();
+          this.documents.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+          this.documentListChanged.next(this.documents.slice());
+        },
+        (error: any) => {
+          console.error('Error fetching documents:', error);
+        }
+      );
    }
 
    getDocument(id: string): Document | null {
@@ -66,8 +76,7 @@ export class DocumentService {
       document.id = this.maxDocumentId.toString();
 
       this.documents.push(document);
-      const documentsListClone = this.documents.slice();
-      this.documentListChanged.next(documentsListClone);
+      this.storeDocuments();
    }
 
    updateDocument(originalDocument: Document, newDocument: Document): void {
@@ -83,8 +92,7 @@ export class DocumentService {
       newDocument.id = originalDocument.id;
       this.documents[pos] = newDocument;
   
-      const documentsListClone = this.documents.slice();
-      this.documentListChanged.next(documentsListClone);
+      this.storeDocuments();
   }
 
   deleteDocument(document: Document): void {
@@ -98,6 +106,17 @@ export class DocumentService {
    }
 
    this.documents.splice(pos, 1);
-   this.documentListChanged.next(this.documents.slice());
+   this.storeDocuments();
+  }
+
+  storeDocuments(): void {
+   const documentsJson = JSON.stringify(this.documents);
+   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+   this.http
+      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/documents.json', documentsJson, { headers })
+      .subscribe(() => {
+         this.documentListChanged.next(this.documents.slice());
+      });
   }
 }
