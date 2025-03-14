@@ -41,7 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
-    ContactsFilterPipe,
+    ContactsFilterPipe
   ],
   imports: [
     BrowserModule,

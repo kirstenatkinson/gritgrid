@@ -26,7 +26,6 @@ export class MessageService {
              
              this.messageListChanged.next(this.messages.slice());
  
-             console.log('Messages fetched and emitted:', this.messages); // Debugging log
           },
           (error: any) => {
              console.error('Error fetching messages:', error);
