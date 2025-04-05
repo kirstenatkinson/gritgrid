@@ -8,9 +8,9 @@ var logger = require('morgan');
 
 // import the routing file to handle the default (index) route
 var index = require('./server/routes/app');
-const messageRoutes = require('./server/routes/messages');
-const contactRoutes = require('./server/routes/contacts');
-const documentsRoutes = require('./server/routes/documents');
+const logRoutes = require('./server/routes/logs');
+const workoutRoutes = require('./server/routes/workouts');
+const recipeRoutes = require('./server/routes/recipes');
 
 // ... ADD CODE TO IMPORT YOUR ROUTING FILES HERE ... 
 
@@ -41,19 +41,19 @@ app.use((req, res, next) => {
 
 // Tell express to use the specified director as the
 // root directory for your web site
-app.use(express.static(path.join(__dirname, 'dist/cms/browser')));
+app.use(express.static(path.join(__dirname, 'dist/gritgrid/browser')));
 
 // Tell express to map the default route ('/') to the index route
 app.use('/', index);
-app.use('/messages', messageRoutes);
-app.use('/contacts', contactRoutes);
-app.use('/documents', documentsRoutes);
+app.use('/logs', logRoutes);
+app.use('/workouts', workoutRoutes);
+app.use('/recipes', recipeRoutes);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 
 // Tell express to map all other non-defined routes back to the index page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/cms/browser/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/gritgrid/browser/index.html'));
 });
 
 // Define the port address and tell express to use this port
