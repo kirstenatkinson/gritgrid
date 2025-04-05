@@ -1,38 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { Contact } from '../contact.model';
-import { ContactService } from '../contact.service';
+import { Workout } from '../workout.model';
+import { WorkoutService } from '../workout.service';
 
 @Component({
-  selector: 'cms-contact-detail',
+  selector: 'gritgrid-workout-detail',
   standalone: false,
   
-  templateUrl: './contact-detail.component.html',
-  styleUrl: './contact-detail.component.css'
+  templateUrl: './workout-detail.component.html',
+  styleUrl: './workout-detail.component.css'
 })
-export class ContactDetailComponent implements OnInit {
-  contact!: Contact;
+export class WorkoutDetailComponent implements OnInit {
+  workout!: Workout;
 
   constructor(
-    private contactService: ContactService,
+    private workoutService: WorkoutService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.contact = new Contact ('0', '', '', '', '', null)
+    this.workout = new Workout ('0', '', '', '', '', null)
   }
 
   ngOnInit(): void {
     this.route.params
       .subscribe((params: Params) => {
         const id = params['id'];
-        this.contact = this.contactService.getContact(id)!;
+        this.workout = this.workoutService.getWorkout(id)!;
       });
   }
 
   onDelete(): void {
-    if (!this.contact) return;
-    this.contactService.deleteContact(this.contact);
-    this.router.navigate(['/contacts']);
+    if (!this.workout) return;
+    this.workoutService.deleteWorkout(this.workout);
+    this.router.navigate(['/workouts']);
   }
 }

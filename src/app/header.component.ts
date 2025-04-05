@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cms-header',
+  selector: 'gritgrid-header',
   standalone: false,
   
   templateUrl: './header.component.html',

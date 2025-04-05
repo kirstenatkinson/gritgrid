@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-body">
-      <form #f="ngForm" id="contact-edit" (ngSubmit)="onSubmit(f)">
+      <form #f="ngForm" id="workout-edit" (ngSubmit)="onSubmit(f)">
         <div class="row">
           <div class="col-sm-12 form-group">
             <label for="name">Name:</label>
@@ -9,7 +9,7 @@
               id="name"
               class="form-control required"
               name="name"
-              [(ngModel)]="contact.name"
+              [(ngModel)]="workout.name"
               required
               #name="ngModel"
               size="120"
@@ -25,7 +25,7 @@
               id="email"
               class="form-control required"
               name="email"
-              [(ngModel)]="contact.email"
+              [(ngModel)]="workout.email"
               required
               #email="ngModel"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
@@ -45,7 +45,7 @@
               id="phone"
               class="form-control"
               name="phone"
-              [(ngModel)]="contact.phone"
+              [(ngModel)]="workout.phone"
               #phone="ngModel"
               pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
               size="150"
@@ -64,7 +64,7 @@
               id="imageUrl"
               class="form-control"
               name="imageUrl"
-              [(ngModel)]="contact.imageUrl"
+              [(ngModel)]="workout.imageUrl"
               #imageUrl="ngModel"
               size="150"
               max="255">
@@ -73,26 +73,26 @@
   
         <div class="row">
           <div class="form-group">
-            <label for="groupList">Group Contacts:</label>
+            <label for="groupList">Group workouts:</label>
             <div 
                 cdkDropList 
-                [cdkDropListData]="groupContacts" 
-                [cdkDropListConnectedTo]="['contactList']"
+                [cdkDropListData]="groupWorkouts" 
+                [cdkDropListConnectedTo]="['workoutList']"
                 (cdkDropListDropped)="addToGroup($event)" 
                 class="row" 
                 id="groupList" 
                 style="min-height: 3rem;">
-              <div *ngFor="let contact of groupContacts; let i = index">
+              <div *ngFor="let workout of groupWorkouts; let i = index">
                 <div>
-                  <cms-contact-item 
+                  <gritgrid-workout-item 
                     class="col-sm-11" 
-                    [contact]="contact"
+                    [workout]="workout"
                     cdkDrag
-                    [cdkDragData]="contact"></cms-contact-item>
+                    [cdkDragData]="workout"></gritgrid-workout-item>
                   <button class="btn btn-danger col-sm-2 deleteButton" type="button" (click)="onRemoveItem(i)">X</button>
                 </div>
               </div>
-              <span class="dragMsg" *ngIf="groupContacts?.length < 1">Drag contacts in group here</span>
+              <span class="dragMsg" *ngIf="groupWorkouts?.length < 1">Drag workouts in group here</span>
             </div>
           </div>
         </div>

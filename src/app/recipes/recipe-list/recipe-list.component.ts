@@ -4,7 +4,7 @@ import { DocumentService } from '../document.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cms-document-list',
+  selector: 'gritgrid-document-list',
   standalone: false,
   
   templateUrl: './document-list.component.html',

@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Contact } from './contact.model';
-import { ContactService } from './contact.service';
+import { Workout } from './workout.model';
+import { WorkoutService } from './workout.service';
 
 @Component({
-  selector: 'cms-contacts',
+  selector: 'gritgrid-workouts',
   standalone: false,
   
-  templateUrl: './contacts.component.html',
-  styleUrl: './contacts.component.css'
+  templateUrl: './workouts.component.html',
+  styleUrl: './workouts.component.css'
 })
-export class ContactsComponent implements OnInit{
-  selectedContact: Contact;
+export class WorkoutsComponent implements OnInit{
+  selectedWorkout: Workout;
 
-  constructor(private contactService: ContactService) {
+  constructor(private workoutService: WorkoutService) {
 
   }
 
   ngOnInit(): void {
-    this.contactService.contactSelectedEvent.subscribe((contact: Contact) => {
-      this.selectedContact = contact;
+    this.workoutService.workoutSelectedEvent.subscribe((workout: Workout) => {
+      this.selectedWorkout = workout;
     })
   }
 }

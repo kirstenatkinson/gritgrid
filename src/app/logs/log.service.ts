@@ -2,42 +2,42 @@ import {EventEmitter, Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Message } from './message.model';
+import { Log } from './log.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
-   messages: Message [] =[];
-   private maxMessageId: number;
-   messageSelectedEvent = new EventEmitter<Message>();
-   messageChangedEvent = new EventEmitter<Message[]>();
-   messageListChanged = new Subject<Message[]>();
+export class LogService {
+   logs: Log [] =[];
+   private maxLogId: number;
+   logSelectedEvent = new EventEmitter<Log>();
+   logChangedEvent = new EventEmitter<Log[]>();
+   logListChanged = new Subject<Log[]>();
    
    constructor(private http: HttpClient) {}
 
-   getMessages(): void {
+   getLogs(): void {
     this.http
-       .get<Message[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/messages.json')
+       .get<Log[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/logs.json')
        .subscribe(
-          (messages: Message[] | null) => {
-             this.messages = messages ? messages : [];
-             this.maxMessageId = this.getMaxId();
+          (logs: Log[] | null) => {
+             this.logs = logs ? logs : [];
+             this.maxLogId = this.getMaxId();
              
-             this.messageListChanged.next(this.messages.slice());
+             this.logListChanged.next(this.logs.slice());
  
           },
           (error: any) => {
-             console.error('Error fetching messages:', error);
+             console.error('Error fetching logs:', error);
           }
        );
  }
  
 
-   getMessage(id: string): Message | null {
-      for (let message of this.messages) {
-        if (message.id === id) {
-          return message;
+   getLog(id: string): Log | null {
+      for (let log of this.logs) {
+        if (log.id === id) {
+          return log;
         }
       }
       return null;
@@ -46,8 +46,8 @@ export class MessageService {
     getMaxId(): number {
       let maxId = 0;
 
-      for (let message of this.messages) {
-         const currentId = parseInt(message.id);
+      for (let log of this.logs) {
+         const currentId = parseInt(log.id);
          if (currentId > maxId) {
             maxId = currentId;
          }
@@ -56,26 +56,26 @@ export class MessageService {
       return maxId;
    }
 
-    addMessage(message: Message): void {
-      if (!message) {
+    addLog(log: Log): void {
+      if (!log) {
         return;
       }
 
-      this.maxMessageId = this.getMaxId() + 1;
-      message.id = this.maxMessageId.toString();
+      this.maxLogId = this.getMaxId() + 1;
+      log.id = this.maxLogId.toString();
 
-      this.messages.push(message);
-      this.storeMessages();
+      this.logs.push(log);
+      this.storeLogs();
     }
 
-  storeMessages(): void {
-   const messagesJson = JSON.stringify(this.messages);
+  storeLogs(): void {
+   const logsJson = JSON.stringify(this.logs);
    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
    this.http
-      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/messages.json', messagesJson, { headers })
+      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/logs.json', logsJson, { headers })
       .subscribe(() => {
-         this.messageListChanged.next(this.messages.slice());
+         this.logListChanged.next(this.logs.slice());
       });
   }
 }

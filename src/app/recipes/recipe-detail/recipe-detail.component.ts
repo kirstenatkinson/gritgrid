@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { WindRefService } from '../../wind-ref.service';
 
 @Component({
-  selector: 'cms-document-detail',
+  selector: 'gritgrid-document-detail',
   standalone: false,
   
   templateUrl: './document-detail.component.html',

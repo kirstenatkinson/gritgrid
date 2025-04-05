@@ -1,26 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Message } from '../message.model';
-import { Contact } from '../../contacts/contact.model';
-import { ContactService } from '../../contacts/contact.service';
+import { Log } from '../log.model';
+import { Workout } from '../../workouts/workout.model';
+import { WorkoutService } from '../../workouts/workout.service';
 
 @Component({
-  selector: 'cms-message-item',
+  selector: 'gritgrid-log-item',
   standalone: false,
   
-  templateUrl: './message-item.component.html',
-  styleUrl: './message-item.component.css'
+  templateUrl: './log-item.component.html',
+  styleUrl: './log-item.component.css'
 })
 
-export class MessageItemComponent implements OnInit{
-  @Input() message: Message;
+export class LogItemComponent implements OnInit{
+  @Input() log: Log;
 
-  messageSender: string = 'Unknown';
+  logSender: string = 'Unknown';
 
-  constructor(private contactService: ContactService) {}
+  constructor(private workoutService: WorkoutService) {}
 
   ngOnInit() {
-     const contact: Contact = this.contactService.getContact(this.message.sender);
-     this.messageSender = contact.name;
+     const workout: Workout = this.workoutService.getWorkout(this.log.sender);
+     this.logSender = workout.name;
   }
 }

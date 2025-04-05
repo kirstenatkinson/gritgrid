@@ -1,4 +1,4 @@
-export class Message {
+export class Log {
     constructor(
         public id: string, 
         public subject: string, 

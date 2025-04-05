@@ -3,27 +3,27 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { Contact } from '../contact.model';
-import { ContactService } from '../contact.service';
+import { Workout } from '../workout.model';
+import { WorkoutService } from '../workout.service';
 
 
 @Component({
-  selector: 'cms-contact-edit',
+  selector: 'gritgrid-workout-edit',
   standalone: false,
   
-  templateUrl: './contact-edit.component.html',
-  styleUrl: './contact-edit.component.css'
+  templateUrl: './workout-edit.component.html',
+  styleUrl: './workout-edit.component.css'
 })
-export class ContactEditComponent implements OnInit{
+export class WorkoutEditComponent implements OnInit{
 
-  originalContact: Contact;
-  contact: Contact;
-  groupContacts: Contact[] = [];
+  originalWorkout: Workout;
+  workout: Workout;
+  groupWorkouts: Workout[] = [];
   editMode: boolean = false;
   id: string;
 
   constructor(
-    private contactService: ContactService,
+    private workoutService: WorkoutService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -35,7 +35,7 @@ export class ContactEditComponent implements OnInit{
         }
     
         const value = form.value;
-        const newContact = new Contact(
+        const newWorkout = new Workout(
           '',
           value.name,
           value.email,
@@ -45,16 +45,16 @@ export class ContactEditComponent implements OnInit{
         )
     
         if(this.editMode) {
-          this.contactService.updateContact(this.originalContact, newContact);
+          this.workoutService.updateWorkout(this.originalWorkout, newWorkout);
         } else {
-          this.contactService.addContact(newContact)
+          this.workoutService.addWorkout(newWorkout)
         }
     
-        this.router.navigate(['/contacts'])
+        this.router.navigate(['/workouts'])
   }
 
   onCancel() {
-    this.router.navigate(['/contacts'])
+    this.router.navigate(['/workouts'])
   }
 
   ngOnInit(): void {
@@ -65,58 +65,58 @@ export class ContactEditComponent implements OnInit{
     
               if (!id) {
                 this.editMode = false;
-                this.contact = new Contact('', '', '', '', '', []);
+                this.workout = new Workout('', '', '', '', '', []);
 
                 return;
               }
     
-              this.originalContact = this.contactService.getContact(id);
+              this.originalWorkout = this.workoutService.getWorkout(id);
     
-              if (!this.originalContact) {
+              if (!this.originalWorkout) {
                 return;
               }
     
               this.editMode = true;
-              this.contact = JSON.parse(JSON.stringify(this.originalContact));
-              if (this.originalContact.group) {
-                this.groupContacts = JSON.parse(JSON.stringify(this.originalContact.group));
+              this.workout = JSON.parse(JSON.stringify(this.originalWorkout));
+              if (this.originalWorkout.group) {
+                this.groupWorkouts = JSON.parse(JSON.stringify(this.originalWorkout.group));
               }
             }
           )
   }
 
-  drop(event: CdkDragDrop<Contact[]>) {
-    moveItemInArray(this.groupContacts, event.previousIndex, event.currentIndex)
+  drop(event: CdkDragDrop<Workout[]>) {
+    moveItemInArray(this.groupWorkouts, event.previousIndex, event.currentIndex)
   }
 
-  isInvalidContact(newContact: Contact) {
-    if (!newContact) {
+  isInvalidWorkout(newWorkout: Workout) {
+    if (!newWorkout) {
       return true;
     }
 
-    if (this.contact && newContact.id === this.contact.id) {
+    if (this.workout && newWorkout.id === this.workout.id) {
       return true;
     }
 
-    return this.groupContacts.some(groupContact => groupContact.id === newContact.id)
+    return this.groupWorkouts.some(groupWorkout => groupWorkout.id === newWorkout.id)
   }
 
-  addToGroup(event: CdkDragDrop<Contact[]>) {
+  addToGroup(event: CdkDragDrop<Workout[]>) {
     if (event.previousContainer !== event.container) {
-      const selectedContact: Contact = event.previousContainer.data[event.previousIndex];
+      const selectedWorkout: Workout = event.previousContainer.data[event.previousIndex];
   
-      if (this.isInvalidContact(selectedContact)) {
+      if (this.isInvalidWorkout(selectedWorkout)) {
         return;
       }
   
-      this.groupContacts.push(selectedContact);
+      this.groupWorkouts.push(selectedWorkout);
     }
   }
 
   onRemoveItem(index: number) {
-    if (index < 0 || index >= this.groupContacts.length) {
+    if (index < 0 || index >= this.groupWorkouts.length) {
       return;
     }
-    this.groupContacts.splice(index, 1)
+    this.groupWorkouts.splice(index, 1)
   }
 }

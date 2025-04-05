@@ -4,16 +4,16 @@
             <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
               <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
             </button>
-            <a routerLink="/" class="navbar-brand">WeLearn CMS</a>
+            <a routerLink="/" class="navbar-brand">WeLearn gritgrid</a>
           </div>
           <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
             <ul class="nav navbar-nav">
                 <li routerLinkActive="active"><a routerLink="/documents">Documents</a></li>
-                <li routerLinkActive="active"><a routerLink="/messages">Messages</a></li>
-                <li routerLinkActive="active"><a routerLink="/contacts">Contacts</a></li>
+                <li routerLinkActive="active"><a routerLink="/logs">logs</a></li>
+                <li routerLinkActive="active"><a routerLink="/workouts">workouts</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" cmsDropdown>
+                <li class="dropdown" gritgridDropdown>
                     <a href="#" class="dropdown-toggle" role="button">User <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Save Data</a></li>

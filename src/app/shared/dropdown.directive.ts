@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostBinding, HostListener} from '@angular/core';
  
 @Directive({
-  selector: '[cmsDropdown]',
+  selector: '[gritgridDropdown]',
   standalone: false
 })
 export class DropdownDirective {

@@ -1,28 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Contact } from '../contact.model';
-import { ContactService } from '../contact.service';
+import { Workout } from '../workout.model';
+import { WorkoutService } from '../workout.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cms-contact-list',
+  selector: 'gritgrid-workout-list',
   standalone: false,
   
-  templateUrl: './contact-list.component.html',
-  styleUrl: './contact-list.component.css'
+  templateUrl: './workout-list.component.html',
+  styleUrl: './workout-list.component.css'
 })
-export class ContactListComponent implements OnInit, OnDestroy{
-  contacts: Contact[] = [];
+export class WorkoutListComponent implements OnInit, OnDestroy{
+  workouts: Workout[] = [];
   term: string = '';
   private subscription: Subscription;
 
-  constructor(private contactService: ContactService) {}
+  constructor(private workoutService: WorkoutService) {}
 
   ngOnInit(): void {
-    this.contactService.getContacts();
+    this.workoutService.getWorkouts();
 
-    this.subscription = this.contactService.contactListChanged
-    .subscribe((contacts: Contact[]) => {
-      this.contacts = contacts;
+    this.subscription = this.workoutService.workoutListChanged
+    .subscribe((workouts: Workout[]) => {
+      this.workouts = workouts;
     })
   }
 

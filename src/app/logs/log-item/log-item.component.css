@@ -1,11 +1,11 @@
-.messageHeader {
+.logHeader {
     background-color: azure;
     border: solid thin black;
     border-radius: 10px;
     padding: 0.4rem;
     font-size: 1.5rem;
  }
- .messageText {
+ .logText {
  border-radius: 10px;
  padding: 5px;
  margin-top: .25rem;

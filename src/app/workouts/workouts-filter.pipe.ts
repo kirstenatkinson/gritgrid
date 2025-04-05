@@ -1,23 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Contact } from './contact.model';
+import { Workout } from './workout.model';
 
 @Pipe({
-  name: 'contactsFilter',
+  name: 'workoutsFilter',
   standalone: false
 })
-export class ContactsFilterPipe implements PipeTransform {
+export class WorkoutsFilterPipe implements PipeTransform {
 
-  transform(contacts: Contact[], term: string) {
-    let filteredContacts: Contact[] =[];  
+  transform(workouts: Workout[], term: string) {
+    let filteredworkouts: Workout[] =[];  
     if (term && term.length > 0) {
-       filteredContacts = contacts.filter(
-          (contact:Contact) => contact.name.toLowerCase().includes(term.toLowerCase())
+       filteredWorkouts = workouts.filter(
+          (workout:Workout) => workout.name.toLowerCase().includes(term.toLowerCase())
        );
     }
-    if (filteredContacts.length < 1){
-       return contacts;
+    if (filteredWorkouts.length < 1){
+       return workouts;
     }
-    return filteredContacts;
+    return filteredWorkouts;
   }
 
 }

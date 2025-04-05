@@ -1,33 +1,33 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Message } from '../message.model';
-import { MessageService } from '../message.service';
+import { Log } from '../log.model';
+import { LogService } from '../log.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cms-message-list',
+  selector: 'gritgrid-log-list',
   standalone: false,
   
-  templateUrl: './message-list.component.html',
-  styleUrl: './message-list.component.css'
+  templateUrl: './log-list.component.html',
+  styleUrl: './log-list.component.css'
 })
-export class MessageListComponent implements OnInit, OnDestroy {
-  messages: Message[] = [];
+export class LogListComponent implements OnInit, OnDestroy {
+  logs: Log[] = [];
   private subscription: Subscription;
 
-  constructor(private messageService: MessageService) {}
+  constructor(private logService: LogService) {}
 
   ngOnInit() {
-    this.messageService.getMessages();
+    this.logService.getLogs();
 
-    this.subscription = this.messageService.messageListChanged
-      .subscribe((messages: Message[]) => {
-        this.messages = messages;
+    this.subscription = this.logService.logListChanged
+      .subscribe((logs: Log[]) => {
+        this.logs = logs;
       });
   }
 
-  onAddMessage(newMessage: Message): void {
-    this.messages.push(newMessage);
+  onAddLog(newLog: Log): void {
+    this.logs.push(newLog);
   }
 
   ngOnDestroy(): void {

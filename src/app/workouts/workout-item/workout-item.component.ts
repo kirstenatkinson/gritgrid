@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
-import { Contact } from '../contact.model';
+import { Workout } from '../workout.model';
 
 @Component({
-  selector: 'cms-contact-item',
+  selector: 'gritgrid-workout-item',
   standalone: false,
   
-  templateUrl: './contact-item.component.html',
-  styleUrl: './contact-item.component.css'
+  templateUrl: './workout-item.component.html',
+  styleUrl: './workout-item.component.css'
 })
-export class ContactItemComponent {
-  @Input() contact!: Contact;
+export class WorkoutItemComponent {
+  @Input() workout!: Workout;
 }

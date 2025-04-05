@@ -3,18 +3,18 @@
        <div class="panel panel-default">
           <div class="panel-heading">
              <div class="row pad-left-right">
-                <span class="title pull-left">Messages</span>
+                <span class="title pull-left">Logs</span>
              </div>
           </div>
           <div class="panel-body">
              <div class="row">
-                <div class="col-xs-12" *ngFor="let message of messages">
-                   <cms-message-item [message]="message"></cms-message-item>
+                <div class="col-xs-12" *ngFor="let log of logs">
+                   <gritgrid-log-item [log]="log"></gritgrid-log-item>
                 </div>
              </div>
           </div>
           <div class="panel-footer">
-             <cms-message-edit (addMessageEvent)="onAddMessage($event)"></cms-message-edit>
+             <gritgrid-log-edit (addLogEvent)="onAddLog($event)"></gritgrid-log-edit>
           </div>
        </div>
     </div>

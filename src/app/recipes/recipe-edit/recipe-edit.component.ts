@@ -6,7 +6,7 @@ import { DocumentService } from '../document.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
-  selector: 'cms-document-edit',
+  selector: 'gritgrid-document-edit',
   standalone: false,
   
   templateUrl: './document-edit.component.html',

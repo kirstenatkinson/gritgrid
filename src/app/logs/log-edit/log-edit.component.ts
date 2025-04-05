@@ -1,38 +1,38 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { Message } from '../message.model';
-import { MessageService } from '../message.service';
+import { Log } from '../log.model';
+import { LogService } from '../log.service';
 
 @Component({
-  selector: 'cms-message-edit',
+  selector: 'gritgrid-log-edit',
   standalone: false,
   
-  templateUrl: './message-edit.component.html',
-  styleUrl: './message-edit.component.css'
+  templateUrl: './log-edit.component.html',
+  styleUrl: './log-edit.component.css'
 })
-export class MessageEditComponent {
+export class LogEditComponent {
   @ViewChild('subject', {static: false}) subjectRef: ElementRef;
   @ViewChild('msgText', {static: false}) msgTextRef: ElementRef;
 
   currentSender: string = '1';
 
-  constructor(private messageService: MessageService) {}
+  constructor(private LogService: LogService) {}
 
-  onSendMessage(): void {
+  onSendLog(): void {
 
     event.preventDefault();
 
     const subject = this.subjectRef.nativeElement.value;
     const msgText = this.msgTextRef.nativeElement.value;
 
-    const newMessage = new Message(
+    const newLog = new Log(
       '1', 
       subject,
       msgText,
       this.currentSender
     );
   
-    this.messageService.addMessage(newMessage);
+    this.logService.addLog(newLog);
   
     this.onClear();
   }

@@ -2,41 +2,41 @@ import {EventEmitter, Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Contact} from './contact.model';
+import {Workout} from './workout.model';
 import {MOCKCONTACTS} from './MOCKCONTACTS';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContactService {
-   contacts: Contact [] =[];
-   private maxContactId: number;
-   contactSelectedEvent = new EventEmitter<Contact>();
-   contactChangedEvent = new EventEmitter<Contact[]>();
-   contactListChanged = new Subject<Contact[]>();
+export class WorkoutService {
+   workouts: Workout [] =[];
+   private maxWorkoutId: number;
+   workoutSelectedEvent = new EventEmitter<Workout>();
+   workoutChangedEvent = new EventEmitter<Workout[]>();
+   workoutListChanged = new Subject<Workout[]>();
    
    constructor(private http: HttpClient) {}
 
-   getContacts() {
+   getWorkouts() {
       this.http
-      .get<Contact[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/contacts.json')
+      .get<Workout[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/workouts.json')
       .subscribe(
-        (contacts: Contact[]) => {
-          this.contacts = contacts;
-          this.maxContactId = this.getMaxId();
-          this.contacts.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-          this.contactListChanged.next(this.contacts.slice());
+        (workouts: Workout[]) => {
+          this.workouts = workouts;
+          this.maxWorkoutId = this.getMaxId();
+          this.workouts.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+          this.workoutListChanged.next(this.workouts.slice());
         },
         (error: any) => {
-          console.error('Error fetching contacts:', error);
+          console.error('Error fetching workouts:', error);
         }
       );
    }
 
-   getContact(id: string): Contact | null {
-      for (let contact of this.contacts) {
-        if (contact.id === id) {
-          return contact;
+   getWorkout(id: string): Workout | null {
+      for (let workout of this.workouts) {
+        if (workout.id === id) {
+          return workout;
         }
       }
       return null;
@@ -45,8 +45,8 @@ export class ContactService {
     getMaxId(): number {
       let maxId = 0;
 
-      for (let contact of this.contacts) {
-         const currentId = parseInt(contact.id);
+      for (let workout of this.workouts) {
+         const currentId = parseInt(workout.id);
          if (currentId > maxId) {
             maxId = currentId;
          }
@@ -55,64 +55,64 @@ export class ContactService {
       return maxId;
    }
 
-    // deleteContact(contact: Contact): void {
-    //   if (!contact) return;
-    //   const pos = this.contacts.indexOf(contact);
+    // deleteWorkout(workout: Workout): void {
+    //   if (!workout) return;
+    //   const pos = this.workouts.indexOf(workout);
     //   if (pos < 0) return;
-    //   this.contacts.splice(pos, 1);
-    //   this.contactChangedEvent.emit(this.contacts.slice());
+    //   this.workouts.splice(pos, 1);
+    //   this.workoutChangedEvent.emit(this.workouts.slice());
     // }
 
-   addContact(contact: Contact): void {
-      if (!contact) {
+   addWorkout(workout: Workout): void {
+      if (!workout) {
          return;
       }
 
-      this.maxContactId = this.getMaxId() + 1;
-      contact.id = this.maxContactId.toString();
+      this.maxWorkoutId = this.getMaxId() + 1;
+      workout.id = this.maxWorkoutId.toString();
 
-      this.contacts.push(contact);
-      this.storeContacts();
+      this.workouts.push(workout);
+      this.storeWorkouts();
    }
 
-   updateContact(originalContact: Contact, newContact: Contact): void {
-      if (!originalContact || !newContact) { 
+   updateWorkout(originalWorkout: Workout, newWorkout: Workout): void {
+      if (!originalWorkout || !newWorkout) { 
           return;
       }
   
-      const pos = this.contacts.indexOf(originalContact);
+      const pos = this.workouts.indexOf(originalWorkout);
       if (pos < 0) {
           return;
       }
   
-      newContact.id = originalContact.id;
-      this.contacts[pos] = newContact;
+      newWorkout.id = originalWorkout.id;
+      this.workouts[pos] = newWorkout;
   
-      this.storeContacts();
+      this.storeWorkouts();
   }
 
-  deleteContact(contact: Contact): void {
-   if (!contact) {
+  deleteWorkout(workout: Workout): void {
+   if (!workout) {
       return
    }
 
-   const pos = this.contacts.indexOf(contact)
+   const pos = this.workouts.indexOf(workout)
    if (pos < 0) {
       return;
    }
 
-   this.contacts.splice(pos, 1);
-   this.storeContacts();
+   this.workouts.splice(pos, 1);
+   this.storeWorkouts();
   }
 
-  storeContacts(): void {
-   const contactsJson = JSON.stringify(this.contacts);
+  storeWorkouts(): void {
+   const workoutsJson = JSON.stringify(this.workouts);
    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
    this.http
-      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/contacts.json', contactsJson, { headers })
+      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/workouts.json', workoutsJson, { headers })
       .subscribe(() => {
-         this.contactListChanged.next(this.contacts.slice());
+         this.workoutListChanged.next(this.workouts.slice());
       });
   }
 }
