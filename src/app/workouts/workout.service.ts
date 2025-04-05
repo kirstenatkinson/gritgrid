@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {Workout} from './workout.model';
-import {MOCKCONTACTS} from './MOCKCONTACTS';
 
 @Injectable({
   providedIn: 'root'

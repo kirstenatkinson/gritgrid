@@ -8,7 +8,7 @@ import { Workout } from './workout.model';
 export class WorkoutsFilterPipe implements PipeTransform {
 
   transform(workouts: Workout[], term: string) {
-    let filteredworkouts: Workout[] =[];  
+    let filteredWorkouts: Workout[] =[];  
     if (term && term.length > 0) {
        filteredWorkouts = workouts.filter(
           (workout:Workout) => workout.name.toLowerCase().includes(term.toLowerCase())

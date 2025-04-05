@@ -16,7 +16,7 @@ export class LogEditComponent {
 
   currentSender: string = '1';
 
-  constructor(private LogService: LogService) {}
+  constructor(private logService: LogService) {}
 
   onSendLog(): void {
 

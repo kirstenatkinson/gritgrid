@@ -1,31 +1,38 @@
-// Get dependencies
-var express = require('express');
-var path = require('path');
-var http = require('http');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// Load environment variables
+require('dotenv').config();
 
-// import the routing file to handle the default (index) route
-var index = require('./server/routes/app');
+// Core dependencies
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ Connected to MongoDB Atlas'))
+.catch((err) => console.error('❌ MongoDB connection error:', err));
+
+// Route files
+const index = require('./server/routes/app');
 const logRoutes = require('./server/routes/logs');
 const workoutRoutes = require('./server/routes/workouts');
 const recipeRoutes = require('./server/routes/recipes');
 
-// ... ADD CODE TO IMPORT YOUR ROUTING FILES HERE ... 
+const app = express(); // Create express app
 
-var app = express(); // create an instance of express
-
-// Tell express to use the following parsers for POST data
+// Middleware setup
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(logger('dev'));
 
-app.use(logger('dev')); // Tell express to use the Morgan logger
-
-// Add support for CORS
+// CORS setup
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -39,31 +46,30 @@ app.use((req, res, next) => {
   next();
 });
 
-// Tell express to use the specified director as the
-// root directory for your web site
+// Serve Angular static files
 app.use(express.static(path.join(__dirname, 'dist/gritgrid/browser')));
 
-// Tell express to map the default route ('/') to the index route
+// Routes
 app.use('/', index);
 app.use('/logs', logRoutes);
 app.use('/workouts', workoutRoutes);
 app.use('/recipes', recipeRoutes);
 
-// ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
+// Health check (optional but helpful)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
-// Tell express to map all other non-defined routes back to the index page
+// Catch-all for Angular routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/gritgrid/browser/index.html'));
 });
 
-// Define the port address and tell express to use this port
+// Server setup
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
-// Create HTTP server.
 const server = http.createServer(app);
-
-// Tell the server to start listening on the provided port
-server.listen(port, function() {
-  console.log('API running on localhost: ' + port)
+server.listen(port, () => {
+  console.log('API running on localhost:' + port);
 });
