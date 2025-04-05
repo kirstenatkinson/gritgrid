@@ -2,63 +2,63 @@ import {EventEmitter, Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Document } from './document.model';
+import { Recipe } from './recipe.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DocumentService {
-   documents: Document [] =[];
-   private maxDocumentId: number;
-   documentSelectedEvent = new EventEmitter<Document>();
-   documentChangedEvent = new EventEmitter<Document[]>();
-   documentListChanged = new Subject<Document[]>();
+export class RecipeService {
+   recipes: Recipe [] =[];
+   private maxRecipeId: number;
+   recipeSelectedEvent = new EventEmitter<Recipe>();
+   recipeChangedEvent = new EventEmitter<Recipe[]>();
+   recipeListChanged = new Subject<Recipe[]>();
    
    constructor(private http: HttpClient) {}
 
-   getDocuments(): void {
+   getRecipes(): void {
       this.http
-      .get<Document[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/documents.json')
+      .get<Recipe[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/recipes.json')
       .subscribe(
-        (documents: Document[]) => {
-          this.documents = documents;
-          this.maxDocumentId = this.getMaxId();
-          this.documents.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-          this.documentListChanged.next(this.documents.slice());
+        (recipes: Recipe[]) => {
+          this.recipes = recipes;
+          this.maxRecipeId = this.getMaxId();
+          this.recipes.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+          this.recipeListChanged.next(this.recipes.slice());
         },
         (error: any) => {
-          console.error('Error fetching documents:', error);
+          console.error('Error fetching recipes:', error);
         }
       );
    }
 
-   getDocument(id: string): Document | null {
-      for (let document of this.documents) {
-        if (document.id === id) {
-          return document;
+   getRecipe(id: string): Recipe | null {
+      for (let recipe of this.recipes) {
+        if (recipe.id === id) {
+          return recipe;
         }
       }
       return null;
     }
 
-   //  deleteDocument(document: Document) {
-   //    if (!document) {
+   //  deleteRecipe(recipe: Recipe) {
+   //    if (!recipe) {
    //       return;
    //    }
-   //    const pos = this.documents.indexOf(document);
+   //    const pos = this.recipes.indexOf(recipe);
    //    if (pos < 0) {
    //       return;
    //    }
-   //    this.documents.splice(pos, 1);
-   //    this.documentChangedEvent.emit(this.documents.slice());
+   //    this.recipes.splice(pos, 1);
+   //    this.recipeChangedEvent.emit(this.recipes.slice());
    // }
 
    getMaxId(): number {
       let maxId = 0;
 
-      for (let document of this.documents) {
-         const currentId = parseInt(document.id);
+      for (let recipe of this.recipes) {
+         const currentId = parseInt(recipe.id);
          if (currentId > maxId) {
             maxId = currentId;
          }
@@ -67,56 +67,56 @@ export class DocumentService {
       return maxId;
    }
 
-   addDocument(document: Document): void {
-      if (!document) {
+   addRecipe(recipe: Recipe): void {
+      if (!recipe) {
          return;
       }
 
-      this.maxDocumentId = this.getMaxId() + 1;
-      document.id = this.maxDocumentId.toString();
+      this.maxRecipeId = this.getMaxId() + 1;
+      recipe.id = this.maxRecipeId.toString();
 
-      this.documents.push(document);
-      this.storeDocuments();
+      this.recipes.push(recipe);
+      this.storeRecipes();
    }
 
-   updateDocument(originalDocument: Document, newDocument: Document): void {
-      if (!originalDocument || !newDocument) { 
+   updateRecipe(originalRecipe: Recipe, newRecipe: Recipe): void {
+      if (!originalRecipe || !newRecipe) { 
           return;
       }
   
-      const pos = this.documents.indexOf(originalDocument);
+      const pos = this.recipes.indexOf(originalRecipe);
       if (pos < 0) {
           return;
       }
   
-      newDocument.id = originalDocument.id;
-      this.documents[pos] = newDocument;
+      newRecipe.id = originalRecipe.id;
+      this.recipes[pos] = newRecipe;
   
-      this.storeDocuments();
+      this.storeRecipes();
   }
 
-  deleteDocument(document: Document): void {
-   if (!document) {
+  deleteRecipe(recipe: Recipe): void {
+   if (!recipe) {
       return
    }
 
-   const pos = this.documents.indexOf(document)
+   const pos = this.recipes.indexOf(recipe)
    if (pos < 0) {
       return
    }
 
-   this.documents.splice(pos, 1);
-   this.storeDocuments();
+   this.recipes.splice(pos, 1);
+   this.storeRecipes();
   }
 
-  storeDocuments(): void {
-   const documentsJson = JSON.stringify(this.documents);
+  storeRecipes(): void {
+   const recipesJson = JSON.stringify(this.recipes);
    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
    this.http
-      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/documents.json', documentsJson, { headers })
+      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/recipes.json', recipesJson, { headers })
       .subscribe(() => {
-         this.documentListChanged.next(this.documents.slice());
+         this.recipeListChanged.next(this.recipes.slice());
       });
   }
 }

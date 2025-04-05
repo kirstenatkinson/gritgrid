@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Document } from './document.model';
-import { DocumentService } from './document.service';
+import { Recipe } from './recipe.model';
+import { RecipeService } from './recipe.service';
 
 @Component({
-  selector: 'gritgrid-documents',
+  selector: 'gritgrid-recipes',
   standalone: false,
   
-  templateUrl: './documents.component.html',
-  styleUrl: './documents.component.css'
+  templateUrl: './recipes.component.html',
+  styleUrl: './recipes.component.css'
 })
-export class DocumentsComponent implements OnInit{
-  selectedDocument: Document;
+export class RecipesComponent implements OnInit{
+  selectedRecipe: Recipe;
 
-  constructor(private documentService: DocumentService) {
+  constructor(private recipeService: RecipeService) {
 
   }
 
   ngOnInit(): void {
-    this.documentService.documentSelectedEvent.subscribe((document: Document) => {
-      this.selectedDocument = document;
+    this.recipeService.recipeSelectedEvent.subscribe((recipe: Recipe) => {
+      this.selectedRecipe = recipe;
     })
   }
 }

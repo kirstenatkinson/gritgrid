@@ -1,27 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Document } from '../document.model';
-import { DocumentService } from '../document.service';
+import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'gritgrid-document-list',
+  selector: 'gritgrid-recipe-list',
   standalone: false,
   
-  templateUrl: './document-list.component.html',
-  styleUrl: './document-list.component.css'
+  templateUrl: './recipe-list.component.html',
+  styleUrl: './recipe-list.component.css'
 })
-export class DocumentListComponent implements OnInit, OnDestroy{
+export class RecipeListComponent implements OnInit, OnDestroy{
 
-  documents: Document[] = [];
+  recipes: Recipe[] = [];
   private subscription: Subscription;
   
-  constructor(private documentService: DocumentService) {}
+  constructor(private recipeService: RecipeService) {}
   
   ngOnInit(): void {
-    this.documentService.getDocuments();
-    this.subscription = this.documentService.documentListChanged
-      .subscribe((documents: Document[]) => {
-        this.documents = documents;
+    this.recipeService.getRecipes();
+    this.subscription = this.recipeService.recipeListChanged
+      .subscribe((recipes: Recipe[]) => {
+        this.recipes = recipes;
     })
   }
 

@@ -1,16 +1,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="row pad-left-right">
-      <span class="pull-left title">Documents</span>
-      <a class="btn btn-success pull-right" routerLink="/documents/new">Add Document</a>
+      <span class="pull-left title">Recipes</span>
+      <a class="btn btn-success pull-right" routerLink="/recipes/new">Add Recipe</a>
     </div>
   </div>
   <div class="panel-body">
     <div class="center-panel">
-      <gritgrid-document-item
-        *ngFor="let document of documents"
-        [document]="document"
-        ></gritgrid-document-item>
+      <gritgrid-recipe-item
+        *ngFor="let recipe of recipes"
+        [recipe]="recipe"
+        ></gritgrid-recipe-item>
     </div>
   </div>
 

@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Document } from '../document.model';
-import { DocumentService } from '../document.service';
+import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { WindRefService } from '../../wind-ref.service';
 
 @Component({
-  selector: 'gritgrid-document-detail',
+  selector: 'gritgrid-recipe-detail',
   standalone: false,
   
-  templateUrl: './document-detail.component.html',
-  styleUrl: './document-detail.component.css'
+  templateUrl: './recipe-detail.component.html',
+  styleUrl: './recipe-detail.component.css'
 })
-export class DocumentDetailComponent implements OnInit{
-  document: Document;
+export class RecipeDetailComponent implements OnInit{
+  recipe: Recipe;
   nativeWindow: any;
   id: string;
 
   constructor(
-    private documentService: DocumentService,
+    private RecipeService: RecipeService,
     private windowRefService: WindRefService,
     private route: ActivatedRoute,
     private router: Router) {
@@ -30,20 +30,20 @@ export class DocumentDetailComponent implements OnInit{
       .subscribe(
         (params: Params) => {
           this.id = params['id'];
-          this.document = this.documentService.getDocument(this.id);
+          this.recipe = this.recipeService.getRecipe(this.id);
         }
       )
   }
 
   onView() {
-    if (this.document.url) {
-      this.nativeWindow.open(this.document.url)
+    if (this.recipe.url) {
+      this.nativeWindow.open(this.recipe.url)
     }
   }
 
   onDelete() {
-    this.documentService.deleteDocument(this.document);
-    this.router.navigate(['/documents']);
+    this.recipeService.deleteRecipe(this.recipe);
+    this.router.navigate(['/recipes']);
  }
 
 }

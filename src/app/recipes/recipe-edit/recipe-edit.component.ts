@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { Document } from '../document.model';
-import { DocumentService } from '../document.service';
+import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
-  selector: 'gritgrid-document-edit',
+  selector: 'gritgrid-recipe-edit',
   standalone: false,
   
-  templateUrl: './document-edit.component.html',
-  styleUrl: './document-edit.component.css'
+  templateUrl: './recipe-edit.component.html',
+  styleUrl: './recipe-edit.component.css'
 })
-export class DocumentEditComponent implements OnInit{
+export class RecipeEditComponent implements OnInit{
 
-  originalDocument: Document | null = null;
-  document: Document;
+  originalRecipe: Recipe | null = null;
+  recipe: Recipe;
   editMode: boolean = false;
 
   onSubmit(form: NgForm) {
@@ -24,7 +24,7 @@ export class DocumentEditComponent implements OnInit{
     }
 
     const value = form.value;
-    const newDocument = new Document(
+    const newRecipe = new Recipe(
       '',
       value.name,
       value.description,
@@ -32,20 +32,20 @@ export class DocumentEditComponent implements OnInit{
     )
 
     if(this.editMode) {
-      this.documentService.updateDocument(this.originalDocument, newDocument);
+      this.recipeService.updateRecipe(this.originalRecipe, newRecipe);
     } else {
-      this.documentService.addDocument(newDocument)
+      this.recipeService.addRecipe(newRecipe)
     }
 
-    this.router.navigate(['/documents'])
+    this.router.navigate(['/recipes'])
   }
 
   onCancel() {
-    this.router.navigate(['/documents'])
+    this.router.navigate(['/recipes'])
   }
 
   constructor(
-    private documentService: DocumentService,
+    private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -61,14 +61,14 @@ export class DocumentEditComponent implements OnInit{
             return;
           }
 
-          this.originalDocument = this.documentService.getDocument(id);
+          this.originalRecipe = this.recipeService.getRecipe(id);
 
-          if (!this.originalDocument) {
+          if (!this.originalRecipe) {
             return;
           }
 
           this.editMode = true;
-          this.document = {...this.originalDocument}
+          this.recipe = {...this.originalRecipe}
         }
       )
   }

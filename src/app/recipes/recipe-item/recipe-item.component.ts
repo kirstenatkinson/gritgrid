@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
-import { Document } from '../document.model';
+import { Recipe } from '../recipe.model';
 
 @Component({
-  selector: 'gritgrid-document-item',
+  selector: 'gritgrid-recipe-item',
   standalone: false,
   
-  templateUrl: './document-item.component.html',
-  styleUrl: './document-item.component.css'
+  templateUrl: './recipe-item.component.html',
+  styleUrl: './recipe-item.component.css'
 })
-export class DocumentItemComponent {
-  @Input() document: Document;
+export class RecipeItemComponent {
+  @Input() recipe: Recipe;
 }

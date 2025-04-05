@@ -1,16 +1,16 @@
 <div class="panel panel-default">
     <div class="panel-body">
   
-      <form #f="ngForm" id="document-edit" (ngSubmit)="onSubmit(f)">
+      <form #f="ngForm" id="recipe-edit" (ngSubmit)="onSubmit(f)">
         <div class="row">
           <div class="col-sm-12 form-group">
-            <label for="name">Document Title:</label>
+            <label for="name">Recipe Title:</label>
             <input
               type="text"
               id="name"
               class="form-control"
               name="name"
-              [(ngModel)]="document.name"
+              [(ngModel)]="recipe.name"
               #name="ngModel"
               required
               size="120"
@@ -20,13 +20,13 @@
   
         <div class="row">
           <div class="col-sm-12 form-group">
-            <label for="description">Document Description:</label>
+            <label for="description">Recipe Description:</label>
             <input
               type="text"
               id="description"
               class="form-control"
               name="description"
-              [(ngModel)]="document.description"
+              [(ngModel)]="recipe.description"
               #description="ngModel"
               size="120"
               max="255">
@@ -35,13 +35,13 @@
   
         <div class="row">
           <div class="col-sm-12 form-group">
-            <label for="url">Document URL:</label>
+            <label for="url">Recipe URL:</label>
             <input
               type="text"
               id="url"
               class="form-control"
               name="url"
-              [(ngModel)]="document.url"
+              [(ngModel)]="recipe.url"
               #url="ngModel"
               required
               size="150"
@@ -57,7 +57,7 @@
         </div>
 
         <div *ngIf="name.invalid || url.invalid" class="alert alert-danger">
-            The Document Title and Document URL are required fields.
+            The Recipe Title and Recipe URL are required fields.
         </div>
   
       </form>
