@@ -18,12 +18,12 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "cms",
+      "prefix": "gritgrid",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/cms",
+            "outputPath": "dist/gritgrid",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "cms:build:production"
+              "buildTarget": "gritgrid:build:production"
             },
             "development": {
-              "buildTarget": "cms:build:development"
+              "buildTarget": "gritgrid:build:development"
             }
           },
           "defaultConfiguration": "development"
