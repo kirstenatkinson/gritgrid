@@ -34,7 +34,7 @@ export class WorkoutService {
 
    getWorkout(id: string): Workout | null {
       for (let workout of this.workouts) {
-        if (workout.id === id) {
+        if (workout._id === id) {
           return workout;
         }
       }
@@ -45,7 +45,7 @@ export class WorkoutService {
       let maxId = 0;
 
       for (let workout of this.workouts) {
-         const currentId = parseInt(workout.id);
+         const currentId = parseInt(workout._id);
          if (currentId > maxId) {
             maxId = currentId;
          }
@@ -68,7 +68,7 @@ export class WorkoutService {
       }
 
       this.maxWorkoutId = this.getMaxId() + 1;
-      workout.id = this.maxWorkoutId.toString();
+      workout._id = this.maxWorkoutId.toString();
 
       this.workouts.push(workout);
       this.storeWorkouts();
@@ -84,7 +84,7 @@ export class WorkoutService {
           return;
       }
   
-      newWorkout.id = originalWorkout.id;
+      newWorkout._id = originalWorkout._id;
       this.workouts[pos] = newWorkout;
   
       this.storeWorkouts();

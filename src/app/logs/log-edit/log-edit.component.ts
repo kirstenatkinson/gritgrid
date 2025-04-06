@@ -11,25 +11,24 @@ import { LogService } from '../log.service';
   styleUrl: './log-edit.component.css'
 })
 export class LogEditComponent {
-  @ViewChild('subject', {static: false}) subjectRef: ElementRef;
-  @ViewChild('msgText', {static: false}) msgTextRef: ElementRef;
-
-  currentSender: string = '1';
+  @ViewChild('weightInput', {static: false}) weightRef: ElementRef;
+  @ViewChild('notesInput', {static: false}) notesRef: ElementRef;
 
   constructor(private logService: LogService) {}
 
   onSendLog(): void {
 
-    event.preventDefault();
+    const weight = parseFloat(this.weightRef.nativeElement.value);
+    const notes = this.notesRef.nativeElement.value;
+    const logDate = new Date();
 
-    const subject = this.subjectRef.nativeElement.value;
-    const msgText = this.msgTextRef.nativeElement.value;
+    if (!weight || isNaN(weight)) return;
 
     const newLog = new Log(
-      '1', 
-      subject,
-      msgText,
-      this.currentSender
+      '', 
+      logDate,
+      weight,
+      notes
     );
   
     this.logService.addLog(newLog);
@@ -38,8 +37,8 @@ export class LogEditComponent {
   }
 
   onClear(): void {
-    this.subjectRef.nativeElement.value = '';
-    this.msgTextRef.nativeElement.value = '';
+    this.weightRef.nativeElement.value = '';
+    this.notesRef.nativeElement.value = '';
   }
   
 }

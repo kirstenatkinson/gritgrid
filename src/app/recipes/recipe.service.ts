@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import { Subject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { Recipe } from './recipe.model';
 
@@ -9,113 +9,61 @@ import { Recipe } from './recipe.model';
 })
 export class RecipeService {
    recipes: Recipe [] =[];
-   private maxRecipeId: number;
-   recipeSelectedEvent = new EventEmitter<Recipe>();
-   recipeChangedEvent = new EventEmitter<Recipe[]>();
    recipeListChanged = new Subject<Recipe[]>();
+   private baseUrl = 'http://localhost:3000/recipes';
    
    constructor(private http: HttpClient) {}
 
    getRecipes(): void {
       this.http
-      .get<Recipe[]>('https://my-awesome-cms-project-default-rtdb.firebaseio.com/recipes.json')
-      .subscribe(
-        (recipes: Recipe[]) => {
-          this.recipes = recipes;
-          this.maxRecipeId = this.getMaxId();
-          this.recipes.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
-          this.recipeListChanged.next(this.recipes.slice());
-        },
-        (error: any) => {
-          console.error('Error fetching recipes:', error);
-        }
-      );
+      .get<Recipe[]>(this.baseUrl)
+      .subscribe({
+         next: (recipes) => {
+            this.recipes = recipes;
+            this.recipes.sort((a, b) => a.name.localeCompare(b.name));
+            this.recipeListChanged.next(this.recipes.slice());
+         },
+         error: (err) => console.error('Error fetching recipes:', err)
+      });
    }
 
-   getRecipe(id: string): Recipe | null {
-      for (let recipe of this.recipes) {
-        if (recipe.id === id) {
-          return recipe;
-        }
-      }
-      return null;
+   getRecipe(id: string): Observable<Recipe> {
+      return this.http.get<Recipe>(`${this.baseUrl}/${id}`);
     }
 
-   //  deleteRecipe(recipe: Recipe) {
-   //    if (!recipe) {
-   //       return;
-   //    }
-   //    const pos = this.recipes.indexOf(recipe);
-   //    if (pos < 0) {
-   //       return;
-   //    }
-   //    this.recipes.splice(pos, 1);
-   //    this.recipeChangedEvent.emit(this.recipes.slice());
-   // }
-
-   getMaxId(): number {
-      let maxId = 0;
-
-      for (let recipe of this.recipes) {
-         const currentId = parseInt(recipe.id);
-         if (currentId > maxId) {
-            maxId = currentId;
-         }
-      }
-
-      return maxId;
-   }
-
    addRecipe(recipe: Recipe): void {
-      if (!recipe) {
-         return;
-      }
-
-      this.maxRecipeId = this.getMaxId() + 1;
-      recipe.id = this.maxRecipeId.toString();
-
-      this.recipes.push(recipe);
-      this.storeRecipes();
+      this.http.post<Recipe>(this.baseUrl, recipe)
+         .subscribe({
+            next: (newRecipe) => {
+               this.recipes.push(newRecipe);
+               this.recipeListChanged.next(this.recipes.slice());
+            },
+            error: (err) => console.error('Error adding recipe:', err)
+         });
    }
 
-   updateRecipe(originalRecipe: Recipe, newRecipe: Recipe): void {
-      if (!originalRecipe || !newRecipe) { 
-          return;
-      }
-  
-      const pos = this.recipes.indexOf(originalRecipe);
-      if (pos < 0) {
-          return;
-      }
-  
-      newRecipe.id = originalRecipe.id;
-      this.recipes[pos] = newRecipe;
-  
-      this.storeRecipes();
+   updateRecipe(id: string, recipe: Recipe): void {
+      this.http.put<Recipe>(`${this.baseUrl}/${id}`, recipe)
+         .subscribe({
+            next: (updatedRecipe) => {
+               const index = this.recipes.findIndex(r => r._id === id);
+               if (index !== -1) {
+                  this.recipes[index] = updatedRecipe;
+                  this.recipeListChanged.next(this.recipes.slice());
+               }
+            },
+            error: (err) =>console.error('Error updating recipe:', err)
+         });
   }
 
-  deleteRecipe(recipe: Recipe): void {
-   if (!recipe) {
-      return
-   }
-
-   const pos = this.recipes.indexOf(recipe)
-   if (pos < 0) {
-      return
-   }
-
-   this.recipes.splice(pos, 1);
-   this.storeRecipes();
-  }
-
-  storeRecipes(): void {
-   const recipesJson = JSON.stringify(this.recipes);
-   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-   this.http
-      .put('https://my-awesome-cms-project-default-rtdb.firebaseio.com/recipes.json', recipesJson, { headers })
-      .subscribe(() => {
-         this.recipeListChanged.next(this.recipes.slice());
-      });
+  deleteRecipe(id: string): void {
+   this.http.delete(`${this.baseUrl}/${id}`)
+      .subscribe({
+         next: () => {
+            this.recipes = this.recipes.filter(r => r._id !== id);
+            this.recipeListChanged.next(this.recipes.slice());
+         },
+         error: (err) => console.error('Error deleting recipe:', err)
+      })
   }
 }

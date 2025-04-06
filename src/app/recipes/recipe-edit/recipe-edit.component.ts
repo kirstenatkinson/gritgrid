@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-
-import { Recipe } from '../recipe.model';
-import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+
+import { Recipe, Ingredient, Instruction } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'gritgrid-recipe-edit',
@@ -12,64 +11,69 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
   templateUrl: './recipe-edit.component.html',
   styleUrl: './recipe-edit.component.css'
 })
+
 export class RecipeEditComponent implements OnInit{
-
-  originalRecipe: Recipe | null = null;
   recipe: Recipe;
+  originalRecipe: Recipe;
   editMode: boolean = false;
-
-  onSubmit(form: NgForm) {
-    if (form.invalid) {
-      return
-    }
-
-    const value = form.value;
-    const newRecipe = new Recipe(
-      '',
-      value.name,
-      value.description,
-      value.url
-    )
-
-    if(this.editMode) {
-      this.recipeService.updateRecipe(this.originalRecipe, newRecipe);
-    } else {
-      this.recipeService.addRecipe(newRecipe)
-    }
-
-    this.router.navigate(['/recipes'])
-  }
-
-  onCancel() {
-    this.router.navigate(['/recipes'])
-  }
 
   constructor(
     private recipeService: RecipeService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
-
+  
   ngOnInit(): void {
     this.route.params
       .subscribe(
         (params: Params) => {
           const id = params['id'];
-
+  
           if (!id) {
             this.editMode = false;
+            this.recipe = new Recipe('', '', [], [], '', 1, '',)
             return;
           }
+  
+          this.recipeService.getRecipe(id)
+            .subscribe((recipe) => {
+              if (!recipe) return
 
-          this.originalRecipe = this.recipeService.getRecipe(id);
+              this.editMode = true;
+              this.originalRecipe = recipe;
+              this.recipe = JSON.parse(JSON.stringify(recipe));
+            });
+        });
+  }
 
-          if (!this.originalRecipe) {
-            return;
-          }
+  onSubmit(): void {
+    if (this.editMode && this.originalRecipe?._id) {
+      this.recipeService.updateRecipe(this.originalRecipe._id, this.recipe);
+    } else {
+      this.recipeService.addRecipe(this.recipe)
+    }
 
-          this.editMode = true;
-          this.recipe = {...this.originalRecipe}
-        }
-      )
+    this.router.navigate(['/recipes']);
+  }
+
+  onCancel() {
+    this.router.navigate(['/recipes'])
+  }
+
+  addIngredient(): void {
+    this.recipe.ingredients.push({ item: '', amount: '', unit: '', preparation: '' });
+  }
+
+  removeIngredient(index: number): void {
+    this.recipe.ingredients.splice(index, 1);
+  }
+
+  addInstruction(): void {
+    this.recipe.instructions.push({ step: this.recipe.instructions.length + 1, description: '' })
+  }
+
+  removeInstruction(index: number): void {
+    this.recipe.instructions.splice(index, 1);
+    this.recipe.instructions.forEach((instr, i) => (instr.step = i + 1))
   }
 }

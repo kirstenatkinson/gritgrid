@@ -1,6 +1,7 @@
 <a class="list-group-item clearfix">
   <div>
-  <span class="logHeader">{{ logSender }}</span>
-  <div class="logText">{{ log?.msgText }}</div>
+    <strong>{{ log.date | date: 'mediumDate' }}</strong>
+    <div><strong>Weight:</strong> {{ log.weight }} lbs</div>
+    <div *ngIf="log.notes"><strong>Notes:</strong> {{ log.notes }}</div>
   </div>
-  </a>
+</a>

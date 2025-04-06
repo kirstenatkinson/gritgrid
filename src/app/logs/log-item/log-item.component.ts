@@ -1,8 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Log } from '../log.model';
-import { Workout } from '../../workouts/workout.model';
-import { WorkoutService } from '../../workouts/workout.service';
 
 @Component({
   selector: 'gritgrid-log-item',
@@ -12,15 +10,7 @@ import { WorkoutService } from '../../workouts/workout.service';
   styleUrl: './log-item.component.css'
 })
 
-export class LogItemComponent implements OnInit{
+export class LogItemComponent {
   @Input() log: Log;
 
-  logSender: string = 'Unknown';
-
-  constructor(private workoutService: WorkoutService) {}
-
-  ngOnInit() {
-     const workout: Workout = this.workoutService.getWorkout(this.log.sender);
-     this.logSender = workout.name;
-  }
 }

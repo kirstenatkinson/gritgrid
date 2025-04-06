@@ -1,35 +1,24 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        <form id="recipe-edit">
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                    <label for="subject">Subject</label>
-                        <input
-                            type="text"
-                            id="subject"
-                            class="form-control"
-                            size="120"
-                            max="120"
-                            #subject>
-                </div>
-    
-                <div class="col-sm-12 form-group">
-                    <label for="log">Log</label>
-                        <input
-                            type="text"
-                            id="log"
-                            class="form-control"
-                            max="255"
-                            size="120"
-                            #msgText>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <button class="btn btn-success" type="submit" (click)="onSendLog()">Send</button>
-                    <button class="btn btn-danger" type="button" (click)="onClear()">Clear</button>
-                </div>
-            </div>
-        </form>
+      <form (submit)="onSendLog(); $event.preventDefault()">
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="weight">Weight (lbs)</label>
+            <input type="number" id="weight" class="form-control" #weightInput required />
+          </div>
+  
+          <div class="col-sm-12 form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" rows="3" class="form-control" #notesInput></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-success" type="submit">Log Entry</button>
+            <button class="btn btn-danger" type="button" (click)="onClear()">Clear</button>
+          </div>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
+  

@@ -1,7 +1,9 @@
 export class Log {
     constructor(
-        public id: string, 
-        public subject: string, 
-        public msgText: string, 
-        public sender: string) {}
-}
+      public _id: string,
+      public date: Date,
+      public weight: number,
+      public notes: string
+    ) {}
+  }
+  

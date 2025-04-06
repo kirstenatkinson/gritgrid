@@ -17,17 +17,12 @@ export class LogListComponent implements OnInit, OnDestroy {
 
   constructor(private logService: LogService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.logService.getLogs();
-
     this.subscription = this.logService.logListChanged
       .subscribe((logs: Log[]) => {
         this.logs = logs;
       });
-  }
-
-  onAddLog(newLog: Log): void {
-    this.logs.push(newLog);
   }
 
   ngOnDestroy(): void {

@@ -1,10 +1,15 @@
+export interface Exercise {
+    name: string,
+    sets: number,
+    reps: number;
+}
+
 export class Workout {
     constructor (
-        public id: string,
+        public _id: string,
         public name: string,
-        public email: string,
-        public phone: string,
-        public imageUrl: string,
-        public group: Workout[]
+        public duration: number,
+        public intensity: 'Low' | 'Medium' | 'High',
+        public exercises: Exercise[]
     ) { }
  }

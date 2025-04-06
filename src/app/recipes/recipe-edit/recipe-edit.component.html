@@ -1,68 +1,78 @@
 <div class="panel panel-default">
-    <div class="panel-body">
-  
-      <form #f="ngForm" id="recipe-edit" (ngSubmit)="onSubmit(f)">
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="name">Recipe Title:</label>
-            <input
-              type="text"
-              id="name"
-              class="form-control"
-              name="name"
-              [(ngModel)]="recipe.name"
-              #name="ngModel"
-              required
-              size="120"
-              max="120">
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="description">Recipe Description:</label>
-            <input
-              type="text"
-              id="description"
-              class="form-control"
-              name="description"
-              [(ngModel)]="recipe.description"
-              #description="ngModel"
-              size="120"
-              max="255">
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="url">Recipe URL:</label>
-            <input
-              type="text"
-              id="url"
-              class="form-control"
-              name="url"
-              [(ngModel)]="recipe.url"
-              #url="ngModel"
-              required
-              size="150"
-              max="255">
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-xs-12 btn-toolbar">
-            <button class="btn btn-success" type="submit">Save</button>
-            <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
-          </div>
-        </div>
+  <div class="panel-body">
+    <form (ngSubmit)="onSubmit()">
+      <!-- Title -->
+      <div class="form-group">
+        <label for="name">Recipe Title:</label>
+        <input type="text" id="name" class="form-control" [(ngModel)]="recipe.name" name="name" required />
+      </div>
 
-        <div *ngIf="name.invalid || url.invalid" class="alert alert-danger">
-            The Recipe Title and Recipe URL are required fields.
+      <!-- Servings -->
+      <div class="form-group">
+        <label for="servings">Servings:</label>
+        <input type="number" id="servings" class="form-control" [(ngModel)]="recipe.servings" name="servings" />
+      </div>
+
+      <!-- Notes -->
+      <div class="form-group">
+        <label for="notes">Notes:</label>
+        <textarea id="notes" class="form-control" [(ngModel)]="recipe.notes" name="notes" rows="2"></textarea>
+      </div>
+
+      <!-- Photo -->
+      <div class="form-group">
+        <label for="photoUrl">Photo URL:</label>
+        <input type="text" id="photoUrl" class="form-control" [(ngModel)]="recipe.photoUrl" name="photoUrl" />
+      </div>
+
+      <!-- Ingredients -->
+      <div class="form-group">
+        <label>Ingredients:</label>
+        <div *ngFor="let ing of recipe.ingredients; let i = index" class="row">
+          <div class="col-sm-3">
+            <input class="form-control" placeholder="Item" [(ngModel)]="ing.item" name="item{{ i }}" />
+          </div>
+          <div class="col-sm-2">
+            <input class="form-control" placeholder="Amount" [(ngModel)]="ing.amount" name="amount{{ i }}" />
+          </div>
+          <div class="col-sm-3">
+            <input class="form-control" placeholder="Unit" [(ngModel)]="ing.unit" name="unit{{ i }}" />
+          </div>
+          <div class="col-sm-3">
+            <input class="form-control" placeholder="Prep" [(ngModel)]="ing.preparation" name="prep{{ i }}" />
+          </div>
+          <div class="col-sm-1">
+            <button type="button" class="btn btn-danger" (click)="removeIngredient(i)">×</button>
+          </div>
         </div>
-  
-      </form>
-  
-    </div>
+        <button type="button" class="btn btn-link" (click)="addIngredient()">+ Add Ingredient</button>
+      </div>
+
+      <!-- Instructions -->
+      <div class="form-group">
+        <label>Instructions:</label>
+        <div *ngFor="let step of recipe.instructions; let i = index" class="row">
+          <div class="col-sm-1">{{ i + 1 }}.</div>
+          <div class="col-sm-10">
+            <input
+              class="form-control"
+              [(ngModel)]="step.description"
+              name="instruction{{ i }}"
+              placeholder="Instruction step"
+            />
+          </div>
+          <div class="col-sm-1">
+            <button type="button" class="btn btn-danger" (click)="removeInstruction(i)">×</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-link" (click)="addInstruction()">+ Add Instruction</button>
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-group">
+        <button class="btn btn-success" type="submit">Save</button>
+        <button class="btn btn-secondary" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
   </div>
-  
-  
+</div>
