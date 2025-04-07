@@ -1,114 +1,79 @@
 <div class="panel panel-default">
-    <div class="panel-body">
-      <form #f="ngForm" id="workout-edit" (ngSubmit)="onSubmit(f)">
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              class="form-control required"
-              name="name"
-              [(ngModel)]="workout.name"
-              required
-              #name="ngModel"
-              size="120"
-              max="120">
+  <div class="panel-body">
+    <form #f="ngForm" id="workout-edit" (ngSubmit)="onSubmit(f)">
+      
+      <!-- Workout Name -->
+      <div class="form-group">
+        <label for="name">Workout Name:</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          name="name"
+          required
+          [(ngModel)]="workout.name"
+          #name="ngModel"
+        />
+      </div>
+
+      <!-- Duration -->
+      <div class="form-group">
+        <label for="duration">Duration (minutes):</label>
+        <input
+          type="number"
+          id="duration"
+          class="form-control"
+          name="duration"
+          [(ngModel)]="workout.duration"
+        />
+      </div>
+
+      <!-- Intensity -->
+      <div class="form-group">
+        <label for="intensity">Intensity:</label>
+        <select
+          id="intensity"
+          class="form-control"
+          name="intensity"
+          [(ngModel)]="workout.intensity"
+        >
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <!-- Exercises -->
+      <div class="form-group">
+        <label>Exercises:</label>
+        <div *ngFor="let ex of workout.exercises; let i = index" class="row mb-2">
+          <div class="col-sm-4">
+            <input class="form-control" placeholder="Exercise name" [(ngModel)]="ex.name" name="name{{i}}" />
+          </div>
+          <div class="col-sm-2">
+            <input class="form-control" type="number" placeholder="Sets" [(ngModel)]="ex.sets" name="sets{{i}}" />
+          </div>
+          <div class="col-sm-2">
+            <input class="form-control" type="number" placeholder="Reps" [(ngModel)]="ex.reps" name="reps{{i}}" />
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-danger" (click)="removeExercise(i)">×</button>
           </div>
         </div>
-  
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              class="form-control required"
-              name="email"
-              [(ngModel)]="workout.email"
-              required
-              #email="ngModel"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-              size="120"
-              max="255">
-          </div>
-          <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
-            Enter a valid email address
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="phone">Phone:</label>
-            <input
-              type="text"
-              id="phone"
-              class="form-control"
-              name="phone"
-              [(ngModel)]="workout.phone"
-              #phone="ngModel"
-              pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
-              size="150"
-              max="255">
-          </div>
-          <div *ngIf="phone.invalid && phone.touched" class="alert alert-danger">
-            Enter a valid phone number
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <label for="imageUrl">Image URL:</label>
-            <input
-              type="text"
-              id="imageUrl"
-              class="form-control"
-              name="imageUrl"
-              [(ngModel)]="workout.imageUrl"
-              #imageUrl="ngModel"
-              size="150"
-              max="255">
-          </div>
-        </div>
-  
-        <div class="row">
-          <div class="form-group">
-            <label for="groupList">Group workouts:</label>
-            <div 
-                cdkDropList 
-                [cdkDropListData]="groupWorkouts" 
-                [cdkDropListConnectedTo]="['workoutList']"
-                (cdkDropListDropped)="addToGroup($event)" 
-                class="row" 
-                id="groupList" 
-                style="min-height: 3rem;">
-              <div *ngFor="let workout of groupWorkouts; let i = index">
-                <div>
-                  <gritgrid-workout-item 
-                    class="col-sm-11" 
-                    [workout]="workout"
-                    cdkDrag
-                    [cdkDragData]="workout"></gritgrid-workout-item>
-                  <button class="btn btn-danger col-sm-2 deleteButton" type="button" (click)="onRemoveItem(i)">X</button>
-                </div>
-              </div>
-              <span class="dragMsg" *ngIf="groupWorkouts?.length < 1">Drag workouts in group here</span>
-            </div>
-          </div>
-        </div>
-  
-        <div *ngIf="(name.errors?.required && name.touched) || (email.errors?.required && email.touched)" class="alert alert-danger">
-          The Name and Email fields are required.
-        </div>
-  
-        <div class="row">
-          <div class="col-xs-12 btn-toolbar">
-            <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Save</button>
-            <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
-          </div>
-        </div>
-  
-      </form>
-    </div>
+        <button type="button" class="btn btn-link" (click)="addExercise()">+ Add Exercise</button>
+      </div>
+
+      <!-- Validation Errors -->
+      <div *ngIf="name.invalid && name.touched" class="alert alert-danger">
+        Workout name is required.
+      </div>
+
+      <!-- Submit & Cancel -->
+      <div class="form-group mt-3">
+        <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Save</button>
+        <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+
+    </form>
   </div>
-  
+</div>

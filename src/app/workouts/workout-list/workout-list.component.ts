@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { Workout } from '../workout.model';
 import { WorkoutService } from '../workout.service';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'gritgrid-workout-list',

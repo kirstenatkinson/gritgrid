@@ -18,8 +18,6 @@ export class WorkoutsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.workoutService.workoutSelectedEvent.subscribe((workout: Workout) => {
-      this.selectedWorkout = workout;
-    })
+
   }
 }

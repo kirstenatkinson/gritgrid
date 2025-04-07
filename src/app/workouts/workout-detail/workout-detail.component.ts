@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Workout } from '../workout.model';
 import { WorkoutService } from '../workout.service';
@@ -12,27 +12,26 @@ import { WorkoutService } from '../workout.service';
   styleUrl: './workout-detail.component.css'
 })
 export class WorkoutDetailComponent implements OnInit {
-  workout!: Workout;
+  workout: Workout;
 
   constructor(
     private workoutService: WorkoutService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.workout = new Workout ('0', '', '', '', '', null)
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.route.params
-      .subscribe((params: Params) => {
-        const id = params['id'];
-        this.workout = this.workoutService.getWorkout(id)!;
+    const id = this.route.snapshot.params['id'];
+    this.workoutService.getWorkout(id)
+      .subscribe({
+        next: (workout) => this.workout = workout,
+        error: (err) => this.router.navigate(['workouts'])
       });
   }
 
   onDelete(): void {
-    if (!this.workout) return;
-    this.workoutService.deleteWorkout(this.workout);
-    this.router.navigate(['/workouts']);
+    if (this.workout?._id){
+    this.workoutService.deleteWorkout(this.workout._id);
+    this.router.navigate(['/workouts']);}
   }
 }

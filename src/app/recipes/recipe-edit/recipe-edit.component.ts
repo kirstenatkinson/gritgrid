@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { Recipe, Ingredient, Instruction } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'gritgrid-recipe-edit',
@@ -46,7 +47,13 @@ export class RecipeEditComponent implements OnInit{
         });
   }
 
-  onSubmit(): void {
+  onSubmit(form: NgForm): void {
+    if (form.invalid ||
+      this.recipe.ingredients.length === 0 || 
+      this.recipe.instructions.length === 0
+    ) {
+      return;
+    }
     if (this.editMode && this.originalRecipe?._id) {
       this.recipeService.updateRecipe(this.originalRecipe._id, this.recipe);
     } else {

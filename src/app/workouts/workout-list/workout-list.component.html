@@ -1,42 +1,39 @@
 <div class="panel panel-default">
-    <!-- Panel Header -->
-    <div class="row">
-        <div class="col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="row">
-                <span class="title pad-left-right">Workouts</span>
-              </div>
-              <div class="row">
-                <div class="input-group pull-left pad-left-right col-xs-7">
-                  <input 
-                    #searchBox
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter a search value" 
-                    (keyup)="search(searchBox.value)">
-                  <div class="glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
-                </div>
-                <div class="pull-right pad-left-right">
-                  <a class="btn btn-success" [routerLink]="['new']">New Workout</a>
-                </div>
-              </div>
+  <!-- Panel Header -->
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <span class="title pad-left-right">Workouts</span>
+          </div>
+          <div class="row">
+            <div class="input-group pull-left pad-left-right col-xs-7">
+              <input 
+                #searchBox
+                type="text"
+                class="form-control"
+                placeholder="Enter a search value" 
+                (keyup)="search(searchBox.value)">
+              <div class="glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
+            </div>
+            <div class="pull-right pad-left-right">
+              <a class="btn btn-success" [routerLink]="['new']">New Workout</a>
             </div>
           </div>
         </div>
       </div>
-
-    <!-- Panel Body -->
-    <div class="panel-body">
-        <div class="row" cdkDropList id="workoutList" [cdkDropListData]="workouts" [cdkDropListConnectedTo]="['groupList']">
-            <!-- Iterate over workouts and display each one -->
-            <gritgrid-workout-item
-                *ngFor="let workout of workouts | workoutsFilter:term"
-                [workout]="workout"
-                [routerLink]="[workout.id]"
-                cdkDrag
-                [cdkDragData]="workout">
-            </gritgrid-workout-item>
-        </div>
     </div>
+  </div>
+
+  <!-- Panel Body -->
+  <div class="panel-body">
+    <div class="row">
+      <gritgrid-workout-item
+        *ngFor="let workout of workouts | workoutsFilter:term"
+        [workout]="workout"
+        [routerLink]="[workout._id]">
+      </gritgrid-workout-item>
+    </div>
+  </div>
 </div>

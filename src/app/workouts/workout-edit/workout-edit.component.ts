@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { NgForm } from '@angular/forms';
 
-import { Workout } from '../workout.model';
+import { Workout, Exercise } from '../workout.model';
 import { WorkoutService } from '../workout.service';
+
 
 
 @Component({
@@ -15,12 +15,9 @@ import { WorkoutService } from '../workout.service';
   styleUrl: './workout-edit.component.css'
 })
 export class WorkoutEditComponent implements OnInit{
-
-  originalWorkout: Workout;
   workout: Workout;
-  groupWorkouts: Workout[] = [];
+  originalWorkout: Workout;
   editMode: boolean = false;
-  id: string;
 
   constructor(
     private workoutService: WorkoutService,
@@ -28,95 +25,52 @@ export class WorkoutEditComponent implements OnInit{
     private route: ActivatedRoute
   ) {}
 
+  ngOnInit(): void {
+    this.route.params
+      .subscribe(
+        (params: Params) => {
+          const id = params['id'];
 
-  onSubmit(form: NgForm) {
-       if (form.invalid) {
-          return
-        }
+          if (!id) {
+            this.editMode = false;
+            this.workout = new Workout('', '', 1, 'Medium', [])
+            return;
+          }
+
+          this.workoutService.getWorkout(id)
+            .subscribe((workout) => {
+              if (!workout) return
+
+              this.editMode = true;
+              this.originalWorkout = workout;
+              this.workout = JSON.parse(JSON.stringify(workout));
+            });
+        });
+  }
+
+  onSubmit(form: NgForm): void {
+    if (form.invalid) {
+      return;
+    }
     
-        const value = form.value;
-        const newWorkout = new Workout(
-          '',
-          value.name,
-          value.email,
-          value.phone,
-          value.imageUrl,
-          value.group
-        )
-    
-        if(this.editMode) {
-          this.workoutService.updateWorkout(this.originalWorkout, newWorkout);
-        } else {
-          this.workoutService.addWorkout(newWorkout)
-        }
-    
-        this.router.navigate(['/workouts'])
+    if (this.editMode && this.originalWorkout?._id) {
+        this.workoutService.updateWorkout(this.originalWorkout._id, this.workout);
+       } else {
+        this.workoutService.addWorkout(this.workout)
+      }
+    this.router.navigate(['/workouts'])
   }
 
   onCancel() {
     this.router.navigate(['/workouts'])
   }
 
-  ngOnInit(): void {
-    this.route.params
-          .subscribe(
-            (params: Params) => {
-              const id = params['id'];
-    
-              if (!id) {
-                this.editMode = false;
-                this.workout = new Workout('', '', '', '', '', []);
 
-                return;
-              }
-    
-              this.originalWorkout = this.workoutService.getWorkout(id);
-    
-              if (!this.originalWorkout) {
-                return;
-              }
-    
-              this.editMode = true;
-              this.workout = JSON.parse(JSON.stringify(this.originalWorkout));
-              if (this.originalWorkout.group) {
-                this.groupWorkouts = JSON.parse(JSON.stringify(this.originalWorkout.group));
-              }
-            }
-          )
+  addExercise(): void {
+    this.workout.exercises.push({name: '', sets: 1, reps: 1})
   }
 
-  drop(event: CdkDragDrop<Workout[]>) {
-    moveItemInArray(this.groupWorkouts, event.previousIndex, event.currentIndex)
-  }
-
-  isInvalidWorkout(newWorkout: Workout) {
-    if (!newWorkout) {
-      return true;
-    }
-
-    if (this.workout && newWorkout.id === this.workout.id) {
-      return true;
-    }
-
-    return this.groupWorkouts.some(groupWorkout => groupWorkout.id === newWorkout.id)
-  }
-
-  addToGroup(event: CdkDragDrop<Workout[]>) {
-    if (event.previousContainer !== event.container) {
-      const selectedWorkout: Workout = event.previousContainer.data[event.previousIndex];
-  
-      if (this.isInvalidWorkout(selectedWorkout)) {
-        return;
-      }
-  
-      this.groupWorkouts.push(selectedWorkout);
-    }
-  }
-
-  onRemoveItem(index: number) {
-    if (index < 0 || index >= this.groupWorkouts.length) {
-      return;
-    }
-    this.groupWorkouts.splice(index, 1)
+  onRemoveExercise(index: number) {
+    this.workout.exercises.splice(index, 1)
   }
 }

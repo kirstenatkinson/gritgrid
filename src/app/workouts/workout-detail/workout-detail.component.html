@@ -1,28 +1,27 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="row">
-        <div class="col-xs-8">
-          <h3 class="panel-title">{{ workout.name }}</h3>
-        </div>
-        <div class="col-xs-4 text-right">
-          <img 
-            [src]="workout.imageUrl" 
-            alt="{{ workout.name }}" 
-            class="img-thumbnail"
-            style="max-height: 50px;">
-        </div>
+<div class="panel panel-default" *ngIf="workout">
+  <div class="panel-heading">
+    <div class="row pad-all">
+      <div class="col-xs-8">
+        <h3 class="panel-title">{{ workout.name }}</h3>
       </div>
-      <div class="row">
-        <div class="col-xs-12 text-right">
-          <button class="btn btn-primary float-right" [routerLink]="['edit']">Edit</button>
-          <button class="btn btn-danger float-right" style="margin-left: 5px;" (click)="onDelete()">Delete</button>
-        </div>
+      <div class="col-xs-4 text-right">
+        <button class="btn btn-primary" [routerLink]="['edit']">Edit</button>
+        <button class="btn btn-danger" style="margin-left: 5px;" (click)="onDelete()">Delete</button>
       </div>
-    </div>
-  
-    <div class="panel-body">
-      <p><strong>Email:</strong> {{ workout.email }}</p>
-      <p><strong>Phone:</strong> {{ workout.phone }}</p>
     </div>
   </div>
-  
+
+  <div class="panel-body">
+    <p><strong>Duration:</strong> {{ workout.duration }} minutes</p>
+    <p><strong>Intensity:</strong> {{ workout.intensity }}</p>
+
+    <div *ngIf="workout.exercises?.length">
+      <h4>Exercises:</h4>
+      <ul>
+        <li *ngFor="let ex of workout.exercises">
+          {{ ex.name }} – {{ ex.sets }} sets x {{ ex.reps }} reps
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
