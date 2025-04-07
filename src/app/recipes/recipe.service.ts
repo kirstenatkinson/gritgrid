@@ -19,6 +19,7 @@ export class RecipeService {
       .get<Recipe[]>(this.baseUrl)
       .subscribe({
          next: (recipes) => {
+            console.log('✅ Recipes fetched:', recipes);
             this.recipes = recipes;
             this.recipes.sort((a, b) => a.name.localeCompare(b.name));
             this.recipeListChanged.next(this.recipes.slice());
