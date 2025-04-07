@@ -33,7 +33,7 @@ export class WorkoutEditComponent implements OnInit{
 
           if (!id) {
             this.editMode = false;
-            this.workout = new Workout('', '', 1, 'Medium', [])
+            this.workout = new Workout('', '', 1, 'Medium', [], '')
             return;
           }
 

@@ -12,6 +12,10 @@
   </div>
 
   <div class="panel-body">
+    <div class="text-center" *ngIf="workout.imageUrl">
+      <img [src]="workout.imageUrl" [alt]="workout.name" class="img-thumbnail mb-3" style="max-height: 200px;" />
+    </div>
+
     <p><strong>Duration:</strong> {{ workout.duration }} minutes</p>
     <p><strong>Intensity:</strong> {{ workout.intensity }}</p>
 

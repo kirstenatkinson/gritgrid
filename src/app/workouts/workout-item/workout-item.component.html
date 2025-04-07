@@ -1,8 +1,16 @@
-<a class="list-group-item clearfix"
-   [routerLink]="[workout._id]"
-   routerLinkActive="active">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ workout?.name }}</h4>
-    <small>{{ workout?.duration }} min • {{ workout?.intensity }}</small>
+<div class="workout-card">
+    <div class="card-body">
+      <h5 class="card-title">{{ workout.name }}</h5>
+      <p class="card-text">
+        Duration: {{ workout.duration }} min<br>
+        Intensity: {{ workout.intensity }}
+      </p>
+      <img 
+        *ngIf="workout.imageUrl" 
+        [src]="workout.imageUrl" 
+        alt="{{ workout.name }}" 
+        class="img-thumbnail mt-2"
+        style="max-height: 100px;">
+    </div>
   </div>
-</a>
+  

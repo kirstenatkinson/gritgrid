@@ -23,16 +23,22 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST new
+// POST a new log
 router.post('/', async (req, res) => {
-  const log = new Log(req.body);
-  try {
-    const newLog = await log.save();
-    res.status(201).json(newLog);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+    const log = new Log({
+      subject: req.body.subject,
+      msgText: req.body.msgText,
+      sender: req.body.sender,
+      date: new Date()
+    });
+  
+    try {
+      const newLog = await log.save();
+      res.status(201).json(newLog);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  });
 
 // PUT update
 router.put('/:id', async (req, res) => {

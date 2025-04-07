@@ -2,6 +2,20 @@
   <div class="panel-body">
     <form #f="ngForm" id="workout-edit" (ngSubmit)="onSubmit(f)">
       
+      <!-- Workout Image -->
+      <div class="form-group">
+        <label for="name">Workout Image:</label>
+        <input
+          type="text"
+          id="imageUrl"
+          class="form-control"
+          name="imageUrl"
+          required
+          [(ngModel)]="workout.imageUrl"
+          #name="ngModel"
+        />
+      </div>
+
       <!-- Workout Name -->
       <div class="form-group">
         <label for="name">Workout Name:</label>

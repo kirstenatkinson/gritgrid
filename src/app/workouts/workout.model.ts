@@ -10,6 +10,7 @@ export class Workout {
         public name: string,
         public duration: number,
         public intensity: 'Low' | 'Medium' | 'High',
-        public exercises: Exercise[]
+        public exercises: Exercise[],
+        public imageUrl: string
     ) { }
  }
