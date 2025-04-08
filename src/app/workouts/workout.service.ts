@@ -66,4 +66,8 @@ export class WorkoutService {
          error: (err) => console.error('Error deleting workout:', err)
       })
   }
+
+  getWorkoutList(): Observable<Workout[]> {
+   return this.http.get<Workout[]>(this.baseUrl)
+  }
 }

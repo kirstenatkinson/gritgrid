@@ -19,7 +19,6 @@ export class RecipeService {
       .get<Recipe[]>(this.baseUrl)
       .subscribe({
          next: (recipes) => {
-            console.log('✅ Recipes fetched:', recipes);
             this.recipes = recipes;
             this.recipes.sort((a, b) => a.name.localeCompare(b.name));
             this.recipeListChanged.next(this.recipes.slice());
@@ -66,5 +65,9 @@ export class RecipeService {
          },
          error: (err) => console.error('Error deleting recipe:', err)
       })
+  }
+
+  getRecipeList(): Observable<Recipe[]> {
+   return this.http.get<Recipe[]>(this.baseUrl)
   }
 }
