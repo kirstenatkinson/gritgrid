@@ -15,17 +15,18 @@ export class LogService {
    constructor(private http: HttpClient) {}
 
    getLogs(): void {
-    this.http
-       .get<Log[]>(this.baseUrl)
-       .subscribe({
-         next: (logs) => {
-            this.logs = logs || [];
+      this.http
+        .get<Log[]>(this.baseUrl)
+        .subscribe({
+          next: (logs) => {
+            this.logs = (logs || []).sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            );
             this.logListChanged.next(this.logs.slice());
-         },
-       error: (error) => console.error('Error fetching logs:', error)
- 
-      });
- }
+          },
+          error: (error) => console.error('Error fetching logs:', error)
+        });
+    }
  
 
    getLog(id: string): Observable<Log> {
@@ -33,14 +34,17 @@ export class LogService {
     }
 
 
-    addLog(log: Log): void {
+   addLog(log: Log): void {
       this.http.post<Log>(this.baseUrl, log)
          .subscribe({
             next: (newLog) => {
-               this.logs.push(newLog);
-               this.logListChanged.next(this.logs.slice());
-            },
-            error: (error) => console.error('Error adding log:', error)
-         });
-      }
+            this.logs.push(newLog);
+            this.logs.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            );
+            this.logListChanged.next(this.logs.slice());
+          },
+          error: (error) => console.error('Error adding log:', error)
+        });
+    }
    }

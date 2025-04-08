@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class RecipeListComponent implements OnInit, OnDestroy{
 
   recipes: Recipe[] = [];
+  term: string = '';
   private subscription: Subscription;
   
   constructor(private recipeService: RecipeService) {}
@@ -23,6 +24,10 @@ export class RecipeListComponent implements OnInit, OnDestroy{
       .subscribe((recipes: Recipe[]) => {
         this.recipes = recipes;
     })
+  }
+
+  search(value: string) {
+    this.term = value;
   }
 
   ngOnDestroy(): void {

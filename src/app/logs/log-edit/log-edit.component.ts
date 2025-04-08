@@ -24,14 +24,11 @@ export class LogEditComponent {
 
     if (!weight || isNaN(weight)) return;
 
-    const newLog = new Log(
-      '', 
-      logDate,
-      weight,
-      notes
-    );
-  
+    const newLog = new Log(undefined, new Date(), weight, notes);
+
+
     this.logService.addLog(newLog);
+    
   
     this.onClear();
   }

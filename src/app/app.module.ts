@@ -21,6 +21,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { WorkoutEditComponent } from './workouts/workout-edit/workout-edit.component';
 import { WorkoutsFilterPipe } from './workouts/workouts-filter.pipe';
+import { RecipesFilterPipe } from './recipes/recipes-filter.pipe';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -41,7 +42,8 @@ import { HttpClientModule } from '@angular/common/http';
     DropdownDirective,
     RecipeEditComponent,
     WorkoutEditComponent,
-    WorkoutsFilterPipe
+    WorkoutsFilterPipe,
+    RecipesFilterPipe
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -21,12 +21,15 @@ export class RecipeDetailComponent implements OnInit{
     private router: Router) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    this.recipeService.getRecipe(id)
-      .subscribe({
-        next: (recipe) => this.recipe = recipe,
-        error: () => this.router.navigate(['/recipes'])
-      });
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      const id = params.get('id');
+      if (id) {
+        this.recipeService.getRecipe(id).subscribe({
+          next: (recipe) => this.recipe = recipe,
+          error: () => this.router.navigate(['/recipes'])
+        });
+      }
+    });
   }
 
   onDelete() {
