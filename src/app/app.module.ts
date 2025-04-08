@@ -23,6 +23,7 @@ import { WorkoutEditComponent } from './workouts/workout-edit/workout-edit.compo
 import { WorkoutsFilterPipe } from './workouts/workouts-filter.pipe';
 import { RecipesFilterPipe } from './recipes/recipes-filter.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { WeekPlannerComponent } from './home/week-planner/week-planner.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     RecipeEditComponent,
     WorkoutEditComponent,
     WorkoutsFilterPipe,
-    RecipesFilterPipe
+    RecipesFilterPipe,
+    WeekPlannerComponent
   ],
   imports: [
     BrowserModule,

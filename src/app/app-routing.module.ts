@@ -7,11 +7,12 @@ import { WorkoutEditComponent } from './workouts/workout-edit/workout-edit.compo
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { WorkoutDetailComponent } from './workouts/workout-detail/workout-detail.component';
+import { WeekPlannerComponent } from './home/week-planner/week-planner.component';
 
 const routes: Routes = [];
 
 const appRoutes: Routes = [
-  {path: '', redirectTo: '/recipes', pathMatch: 'full'},
+  {path: '', component: WeekPlannerComponent, pathMatch: 'full'},
   {path: 'recipes', component: RecipesComponent, children: [
     {path: 'new', component: RecipeEditComponent},
     {path: ':id', component: RecipeDetailComponent},

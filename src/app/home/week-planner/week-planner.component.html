@@ -1,0 +1,42 @@
+<div class="week-grid">
+    <div class="day-column" *ngFor="let day of days">
+      <h4>{{ day }}</h4>
+  
+      <!-- Food slots -->
+      <div *ngFor="let slot of foodSlots"
+           class="slot"
+           (click)="onSlotClick(day, slot)"
+           cdkDropList
+           [cdkDropListData]="getSlotItems(day, slot)"
+           (cdkDropListDropped)="onDrop($event, day, slot)">
+        <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
+          <span class="plus">＋</span> {{ slot }}
+        </div>
+        <div *ngIf="weekPlan[day][slot]"
+             class="slot-card"
+             cdkDrag
+             [cdkDragData]="weekPlan[day][slot]">
+          {{ weekPlan[day][slot]?.name }}
+        </div>
+      </div>
+  
+      <!-- Workout slot -->
+      <div class="slot"
+           *ngFor="let slot of workoutSlot"
+           (click)="onSlotClick(day, slot)"
+           cdkDropList
+           [cdkDropListData]="getSlotItems(day, slot)"
+           (cdkDropListDropped)="onDrop($event, day, slot)">
+        <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
+          <span class="plus">＋</span> Workout
+        </div>
+        <div *ngIf="weekPlan[day][slot]"
+             class="slot-card"
+             cdkDrag
+             [cdkDragData]="weekPlan[day][slot]">
+          {{ weekPlan[day][slot]?.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
