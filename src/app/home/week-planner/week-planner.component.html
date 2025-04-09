@@ -1,55 +1,73 @@
 <div class="week-grid">
-    <div class="day-column" *ngFor="let day of days">
-      <h4>{{ day }}</h4>
-  
-      <!-- Food slots -->
-      <div *ngFor="let slot of foodSlots"
-           class="slot"
-           (click)="onSlotClick(day, slot)"
-           cdkDropList
-           [cdkDropListData]="getSlotItems(day, slot)"
-           (cdkDropListDropped)="onDrop($event, day, slot)">
-        <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
+  <div class="day-column" *ngFor="let day of days">
+    <h4>{{ day }}</h4>
+
+    <!-- Food Slots -->
+    <div *ngFor="let slot of foodSlots"
+         class="slot"
+         (click)="onSlotClick(day, slot)"
+         cdkDropList
+         [cdkDropListData]="getSlotItems(day, slot)"
+         [cdkDropListConnectedTo]="[]"
+         (cdkDropListDropped)="onDrop($event, day, slot)">
+         
+      <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
+        <ng-container *ngIf="selectedSlot?.day === day && selectedSlot?.slot === slot">
+          <select class="form-control"
+                  (change)="onSelectItem($event.target.value, day, slot)"
+                  (click)="$event.stopPropagation()">
+            <option value="">Select {{ slot }}</option>
+            <option *ngFor="let item of getOptionsForSlot(slot)" [value]="item._id">
+              {{ item.name }}
+            </option>
+          </select>
+        </ng-container>
+
+        <ng-container *ngIf="!(selectedSlot?.day === day && selectedSlot?.slot === slot)">
           <span class="plus">＋</span> {{ slot }}
-        </div>
-        <div *ngIf="weekPlan[day][slot]"
-             class="slot-card"
-             cdkDrag
-             [cdkDragData]="weekPlan[day][slot]">
-          {{ weekPlan[day][slot]?.name }}
-        </div>
+        </ng-container>
       </div>
-  
-      <!-- Workout slot -->
-      <div class="slot"
-           *ngFor="let slot of workoutSlot"
-           (click)="onSlotClick(day, slot)"
-           cdkDropList
-           [cdkDropListData]="getSlotItems(day, slot)"
-           (cdkDropListDropped)="onDrop($event, day, slot)">
-           <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
-            <ng-container *ngIf="selectedSlot?.day === day && selectedSlot?.slot === slot">
-              <select class="form-control"
-                      (change)="onSelectItem($event.target.value, day, slot)"
-                      (click)="$event.stopPropagation()">
-                <option value="">Select {{ slot }}</option>
-                <option *ngFor="let item of getOptionsForSlot(slot)" [value]="item._id">
-                  {{ item.name }}
-                </option>
-              </select>
-            </ng-container>
-          
-            <ng-container *ngIf="!(selectedSlot?.day === day && selectedSlot?.slot === slot)">
-              <span class="plus">＋</span> {{ slot }}
-            </ng-container>
-          </div>          
-        <div *ngIf="weekPlan[day][slot]"
-             class="slot-card"
-             cdkDrag
-             [cdkDragData]="weekPlan[day][slot]">
-          {{ weekPlan[day][slot]?.name }}
-        </div>
+
+      <div *ngIf="weekPlan[day][slot]"
+           class="slot-card"
+           cdkDrag
+           [cdkDragData]="weekPlan[day][slot]">
+        {{ weekPlan[day][slot]?.name }}
+      </div>
+    </div>
+
+    <!-- Workout Slot -->
+    <div class="slot"
+         *ngFor="let slot of workoutSlot"
+         (click)="onSlotClick(day, slot)"
+         cdkDropList
+         [cdkDropListData]="getSlotItems(day, slot)"
+         [cdkDropListConnectedTo]="[]"
+         (cdkDropListDropped)="onDrop($event, day, slot)">
+         
+      <div *ngIf="!weekPlan[day][slot]" class="empty-slot">
+        <ng-container *ngIf="selectedSlot?.day === day && selectedSlot?.slot === slot">
+          <select class="form-control"
+                  (change)="onSelectItem($event.target.value, day, slot)"
+                  (click)="$event.stopPropagation()">
+            <option value="">Select {{ slot }}</option>
+            <option *ngFor="let item of getOptionsForSlot(slot)" [value]="item._id">
+              {{ item.name }}
+            </option>
+          </select>
+        </ng-container>
+
+        <ng-container *ngIf="!(selectedSlot?.day === day && selectedSlot?.slot === slot)">
+          <span class="plus">＋</span> {{ slot }}
+        </ng-container>
+      </div>
+
+      <div *ngIf="weekPlan[day][slot]"
+           class="slot-card"
+           cdkDrag
+           [cdkDragData]="weekPlan[day][slot]">
+        {{ weekPlan[day][slot]?.name }}
       </div>
     </div>
   </div>
-  
+</div>

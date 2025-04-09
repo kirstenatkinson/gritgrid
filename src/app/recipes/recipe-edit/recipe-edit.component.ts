@@ -32,7 +32,7 @@ export class RecipeEditComponent implements OnInit{
   
           if (!id) {
             this.editMode = false;
-            this.recipe = new Recipe('', '', [], [], '', 1, '',)
+            this.recipe = new Recipe(undefined, '', [], [], '', 1, '',)
             return;
           }
   
