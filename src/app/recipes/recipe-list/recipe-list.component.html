@@ -20,13 +20,15 @@
     </div>
   </div>
 
-  <!-- Recipe List -->
+  <!-- FLEX Recipe Grid -->
   <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-12"
-           *ngFor="let recipe of recipes | recipesFilter:term">
-        <gritgrid-recipe-item [recipe]="recipe"></gritgrid-recipe-item>
-      </div>
+    <div class="recipe-cards">
+      <gritgrid-recipe-item
+        *ngFor="let recipe of recipes | recipesFilter: term"
+        [recipe]="recipe"
+        [routerLink]="[recipe._id]">
+      </gritgrid-recipe-item>
     </div>
   </div>
 </div>
+

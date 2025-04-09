@@ -1,14 +1,25 @@
-.logHeader {
-    background-color: azure;
-    border: solid thin black;
-    border-radius: 10px;
-    padding: 0.4rem;
-    font-size: 1.5rem;
- }
- .logText {
- border-radius: 10px;
- padding: 5px;
- margin-top: .25rem;
- margin-left: 1rem;
- font-size: 1.5rem;
- }
+:host {
+    display: block;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  :host(:hover) {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .log-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .log-date {
+    font-weight: 600;
+    color: #3e3e3e;
+    margin-bottom: 0.5rem;
+  }
+  

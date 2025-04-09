@@ -1,3 +1,7 @@
+<div class="banner" *ngIf="bannerImage">
+    <img [src]="bannerImage" alt="Page Banner" />
+</div>
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -9,8 +13,8 @@
           <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
             <ul class="nav navbar-nav">
                 <li routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>
-                <li routerLinkActive="active"><a routerLink="/logs">Fitness Logs</a></li>
                 <li routerLinkActive="active"><a routerLink="/workouts">Workouts</a></li>
+                <li routerLinkActive="active"><a routerLink="/logs">Fitness Logs</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" gritgridDropdown>
@@ -24,6 +28,3 @@
         </div>
     </div>
 </nav>
-<div class="banner" *ngIf="bannerImage">
-    <img [src]="bannerImage" alt="Page Banner" />
-  </div>

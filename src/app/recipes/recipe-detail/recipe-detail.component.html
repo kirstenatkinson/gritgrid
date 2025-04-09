@@ -26,11 +26,11 @@
 
     <div *ngIf="recipe.instructions?.length">
       <h5>Instructions:</h5>
-      <ol>
+      <ul>
         <li *ngFor="let step of recipe.instructions">
           {{ step.step }}. {{ step.description }}
         </li>
-      </ol>
+      </ul>
     </div>
   </div>
 </div>

@@ -1,16 +1,17 @@
 <div class="workout-card">
     <div class="card-body">
-      <h5 class="card-title">{{ workout.name }}</h5>
-      <p class="card-text">
-        Duration: {{ workout.duration }} min<br>
-        Intensity: {{ workout.intensity }}
-      </p>
       <img 
-        *ngIf="workout.imageUrl" 
-        [src]="workout.imageUrl" 
-        alt="{{ workout.name }}" 
-        class="img-thumbnail mt-2"
-        style="max-height: 100px;">
+      *ngIf="workout.imageUrl" 
+      [src]="workout.imageUrl" 
+      alt="{{ workout.name }}" 
+      class="img-responsive">
+      <div class="workout-content">
+        <h5 class="card-title">{{ workout.name }}</h5>
+        <p class="card-text">
+          Duration: {{ workout.duration }} min<br>
+          Intensity: {{ workout.intensity }}
+        </p>
+      </div>
     </div>
   </div>
   

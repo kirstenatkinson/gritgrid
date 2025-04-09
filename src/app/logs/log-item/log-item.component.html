@@ -1,7 +1,7 @@
 <a class="list-group-item clearfix">
-  <div>
-    <strong>{{ log.date | date: 'mediumDate' }}</strong>
-    <div><strong>Weight:</strong> {{ log.weight }} lbs</div>
-    <div *ngIf="log.notes"><strong>Notes:</strong> {{ log.notes }}</div>
-  </div>
+  <div class="log-card">
+    <p class="log-date">{{ log.date | date: 'mediumDate' }}</p>
+    <p><strong>Weight:</strong> {{ log.weight }} lbs</p>
+    <p><strong>Notes:</strong> {{ log.notes }}</p>
+  </div>  
 </a>

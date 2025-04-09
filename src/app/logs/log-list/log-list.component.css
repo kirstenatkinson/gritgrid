@@ -6,3 +6,43 @@
     padding-left: 1rem;
     padding-right: 1rem;
     }
+
+    .log-wrapper {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      
+      .log-form {
+        margin-bottom: 1.5rem;
+        max-width: 600px;
+      }
+      
+      .log-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      gritgrid-log-item {
+        flex: 1 1 calc(33.333% - 1rem);
+        max-width: calc(33.333% - 1rem);
+        min-width: 250px;
+      }
+      
+      @media (max-width: 768px) {
+        gritgrid-log-item {
+          flex: 1 1 calc(50% - 1rem);
+          max-width: calc(50% - 1rem);
+        }
+      }
+      
+      @media (max-width: 480px) {
+        gritgrid-log-item {
+          flex: 1 1 100%;
+          max-width: 100%;
+        }
+      }
+      

@@ -1,25 +1,13 @@
-<div class="row">
-   <div class="col-md-5">
-     <div class="panel panel-default logs-panel">
-       <div class="panel-heading">
-         <div class="row pad-left-right">
-           <span class="title pull-left">Logs</span>
-         </div>
-       </div>
-       <!-- New Log Entry Form with a new CSS class for styling -->
-       <div class="new-log-entry">
-         <gritgrid-log-edit></gritgrid-log-edit>
-       </div>
-       <div class="panel-body">
-         <div class="row">
-           <div class="col-xs-12" *ngFor="let log of logs">
-             <div class="log-card">
-               <gritgrid-log-item [log]="log"></gritgrid-log-item>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
- 
+<div class="log-wrapper">
+  <div class="log-form">
+    <gritgrid-log-edit></gritgrid-log-edit>
+  </div>
+
+
+  <div class="log-cards">
+    <gritgrid-log-item 
+      *ngFor="let log of logs" 
+      [log]="log">
+    </gritgrid-log-item>
+  </div>
+</div>

@@ -1,17 +1,28 @@
-<div class="workout-page-container">
-  <div class="workout-header">
-    <input 
-      type="text" 
-      placeholder="Search workouts..." 
-      (input)="search($event.target.value)" 
-      class="form-control" />
-    <a class="btn btn-success" [routerLink]="['/workouts/new']">New Workout</a>
+<div class="panel panel-default">
+  <!-- Header with title + add button -->
+  <div class="panel-heading">
+    <div class="row pad-left-right">
+      <span class="pull-left title">Workouts</span>
+      <a class="btn btn-success pull-right" routerLink="/workouts/new">Add Workout</a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="row pad-left-right" style="margin-top: 10px;">
+      <div class="input-group col-xs-12">
+        <input
+          #searchBox
+          type="text"
+          class="form-control"
+          placeholder="Search for a workout..."
+          (keyup)="search(searchBox.value)" />
+        <div class="input-group-addon glyphicon glyphicon-search" (click)="search(searchBox.value)"></div>
+      </div>
+    </div>
   </div>
 
   <div class="workout-main">
-    <!-- Workout list as cards -->
     <div class="workout-cards">
-      <gritgrid-workout-item
+      <gritgrid-workout-item class="workout-card"
         *ngFor="let workout of workouts | workoutsFilter: term"
         [workout]="workout"
         [routerLink]="[workout._id]">

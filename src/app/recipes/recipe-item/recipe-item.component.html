@@ -1,7 +1,13 @@
-<a class="list-group-item clearfix recipeDiv" 
-[routerLink]="['/recipes', recipe._id]"
-routerLinkActive="active"
-[routerLinkActiveOptions]="{ exact: true }">
-    {{ recipe?.name }}
-  </a>
-  
+<div class="recipe-card">
+  <img
+    [src]="recipe.photoUrl"
+    [alt]="recipe.name"
+    class="recipe-image"
+  />
+
+  <div class="recipe-content">
+    <h4 class="recipe-title">{{ recipe.name }}</h4>
+    <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+    <p *ngIf="recipe.notes"><strong>Notes:</strong> {{ recipe.notes }}</p>
+  </div>
+</div>
